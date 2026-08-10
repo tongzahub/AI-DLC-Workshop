@@ -16,18 +16,27 @@ same rules and produce four different execution plans, because Workflow Planning
 path from the shape of the problem and the team defends or changes it at a gate. Day 2 puts
 all four plans side by side; that comparison is the point of the workshop.
 
-**2 · Every behaviour traces back to a sentence someone said.** The kit is built around 18
-closed loops — a stakeholder quotation, the decision a team has to record, and a single number
-in the running software you can point at. For example:
+**2 · Every behaviour traces back to a sentence someone said.** The kit is built around
+eighteen closed loops. Each one runs like this:
 
-| Someone said | The software says |
-|---|---|
-| *"Today the POS rounds down per basket"* — Khun Beer, POS lead | **TX90007 posts 29 points**, not 27 |
-| *"Just approve it and we'll check later"* — Khun Arm, Operations | **MANUAL_REVIEW** — the team refused the instruction |
-| *"Our day closes at 20:00"* — Finance | **3 rows** in the 16 September COD summary |
-| *"Your system should ignore the copies"* — the gateway vendor | **OEE 0.8167**, not the impossible 1.568 |
+```
+someone said something in a meeting
+  └─ the AI asked a question the documents could not answer
+      └─ the team typed an answer into a file, and recorded why
+          └─ that became a requirement, a design, and code
+              └─ and it shows up as one specific number you can point at
+```
 
-Teams reconstruct those chains themselves in `traceability-worksheet.md` and walk one of them,
+An illustration — deliberately not one of the eighteen: *"we invoice in whole baht, never
+satang"* → a decision recorded at a gate → invoice 1042 totals **1,240**, not 1,239.60 → and a
+test that fails the day someone quietly reintroduces the rounding.
+
+**What the eighteen actually are is not written anywhere a team can read.** Finding them is the
+exercise: the answers live in stakeholder interviews, incident tickets and change requests — in
+the words of people who sometimes contradict each other, and once ask for something the team
+should refuse. The technical documents deliberately do not settle any of it.
+
+Teams reconstruct their own chains in `traceability-worksheet.md` and walk one of them,
 backwards, in their demo. That worksheet — not a score — is what they take home.
 
 ## This is the participant half of a two-repository kit
@@ -128,7 +137,7 @@ out. If stage names have moved, the workshop checkpoints will not line up.
 Five files are **generated and coupled to an answer key**:
 
 ```
-group1-retail/sample-data/transactions.csv     ─→ expected-points.csv, expected-points-by-line.csv
+group1-retail/sample-data/transactions.csv     ─→ expected-points.csv, expected-points-by-line.csv (read by check-points.mjs)
 group3-logistics/sample-cod-day.csv            ─→ expected-cod-summary.csv
 group4-manufacturing/sample-readings.jsonl     ─→ expected-oee-l03.csv, expected-oee-all-lines.csv
 ```

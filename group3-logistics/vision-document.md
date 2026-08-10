@@ -32,7 +32,7 @@ Thunder Express is a fictional last-mile delivery company (300 riders, ~12,000 p
 
 1. **Status webhooks to merchants** — merchant registers a callback URL + secret; on every parcel status change, POST a signed event; retry with backoff (max 5 attempts); delivery log queryable.
 2. **COD reconciliation** — daily summary per rider (expected vs recorded collections), variance flagging (> 50 THB or missing), finance endpoint `GET /cod/summary?date=` and rider detail; mark-settled action.
-3. **Fix what you find** — RE will surface issues in the existing code (e.g., status transition rules, float money handling). The team decides with the facilitator which are in scope; at minimum, money must not be floats in new code.
+3. **Fix what you find** — RE will surface issues in the existing code. The team decides with the facilitator which are in scope; at minimum, money must not be floats in new code.
 
 ## Features Explicitly Out of Scope
 
@@ -50,6 +50,6 @@ Thunder Express is a fictional last-mile delivery company (300 riders, ~12,000 p
 
 ## Open Questions (expect the AI to ask)
 
-- Which status transitions are legal? (Current code accepts anything — is that a bug to fix or behavior to preserve?)
+- Which status transitions are legal, and does the existing code actually enforce them? (Whatever RE finds here: bug to fix, or behavior to preserve?)
 - Webhook event payload: full parcel object or minimal delta + fetch URL?
 - If a rider records a COD amount different from the parcel's COD value, accept-and-flag or reject?

@@ -56,8 +56,8 @@ Choose behaviours that were **genuinely decided**, not ones that were obvious. A
 one where a reasonable team could have gone the other way.
 
 Candidates for ParcelTrack — pick from these or find your own:
-the settlement-day boundary · what to do about the float money columns you found
-in RE · whether `PUT /status` keeps accepting any string · what the webhook event payload
+the settlement-day boundary · what to do about the money-handling pattern you found
+in RE · whether the status-update endpoint keeps its current behaviour · what the webhook event payload
 contains (full object vs delta) · what happens when a rider records a different amount than
 the parcel's COD value · how many retries and with what backoff · what you told merchants
 about duplicate deliveries

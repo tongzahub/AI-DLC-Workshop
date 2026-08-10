@@ -34,20 +34,20 @@ valuable thing you will find today. Write it down honestly; it scores better tha
 
 | Step | Where | What it says |
 |---|---|---|
-| **The sentence** | `stakeholder-notes.md`, Khun Arm (Head of Operations) | *"If the vendor never answers, just approve it and we'll check later — we can't leave customers hanging."* |
-| **The question** | Requirements question file | "If the vendor webhook never arrives, retry after how long — and who is allowed to re-trigger verification?" |
-| **Our answer** | `[Answer]:` | **We did not do what Operations asked.** Poll the status endpoint, then route to MANUAL_REVIEW. Auto-approving an unverified identity is the exact failure the whole service exists to prevent, and Compliance would have found it in the audit |
-| **The decision** | `team-log.md` #_ | Vendor silence → poll → MANUAL_REVIEW, never APPROVED. Escalated back to Khun Arm rather than implemented as stated |
-| **Story / requirement** | | "As Compliance, no application reaches APPROVED without a verification result on file" |
-| **Design** | | Timeout path is an explicit state transition, not a fallthrough; the queue absorbs it |
+| **The sentence** | `stakeholder-notes.md`, Khun Golf (Vendor Manager) | *"Every call. Even the ones that come back FAILED. Even the ones you sent twice by accident — especially those."* |
+| **The question** | Requirements question file | "Who may trigger a repeat verification for the same application, and what prevents an accidental duplicate submission?" |
+| **Our answer** | `[Answer]:` | The service never re-submits on its own. Re-verification is an explicit `OPS_REVIEWER` action behind a cost warning, and every submission is guarded by a per-application check |
+| **The decision** | `team-log.md` #_ | One billed vendor call per application unless a human deliberately orders another. Chosen over automatic re-submission, which spends the company's money without anyone deciding to |
+| **Story / requirement** | | "As Finance, every vendor charge on the invoice maps to one deliberate action I can find in the audit trail" |
+| **Design** | | Submission goes through a single guarded path; the re-verify endpoint is role-gated, audited, and reuses the stored images |
 | **Code** | `_______:__` | |
-| **Test** | `_______` | The test that fails if the timeout path ever produces APPROVED |
-| **THE OBSERVABLE** | | Kill the mock mid-verification → the application lands in **MANUAL_REVIEW**, and the audit trail says why |
+| **Test** | `_______` | The test that fails if two submissions for one application can ever reach the vendor client |
+| **THE OBSERVABLE** | `GET localhost:9310/_admin/billing` | **`double_billed` is an empty map** after the full Day-2 demo — the vendor's own ledger says no application was ever charged twice |
 
-**Why this example is the whole point:** a stakeholder asked for something dangerous, in writing, and the process
-caught it. That is not the AI being clever — the AI only asked what happens when the webhook
-never arrives. The value came from the question being asked *before* the code was written,
-and from someone having to type an answer into a file that Compliance can read later.
+**Why this example is the whole point:** the observable is not in your code at all — it is on the *vendor's* side,
+the same place the invoice comes from. A sentence about money, said in a taxi, became a guard
+in the design, and the proof is a ledger your team does not control. That is what "defensible"
+means in this project.
 
 ---
 

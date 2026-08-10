@@ -11,7 +11,7 @@
 - Purpose 1 (identity + credit) is required; Purpose 2 (marketing) is optional and **must not** be pre-ticked.
 - Withdrawal: "Purpose 2 they can withdraw any time and nothing happens to the loan. Purpose 1 — if they withdraw, the application is over."
 - Asked what "over" means: *"Terminated. Not paused."* Then, later in the same meeting: *"Well — if they withdraw and then change their mind the same day, obviously we do not make them start again."* **(Contradiction. Decide: terminate immediately, or a short grace window? Record which and why.)**
-- DRAFT applications: "Seven days and it is stale. Delete it." Asked whether that means delete the record or expire the state: *"…that is your problem, not mine. Just do not keep the photos."* **(Decision hint: EXPIRED state + purge biometrics, keep the audit skeleton)**
+- DRAFT applications: "Seven days and it is stale. Delete it." Asked whether that means delete the record or expire the state: *"…that is your problem, not mine. Just do not keep the photos."*
 - Erasure requests: "By law we have thirty days. In practice do it same day. But you cannot delete what we are required to keep for seven years." **(retain the audit skeleton, purge biometrics)**
 - On unmasking: "Ops can unmask if they need to. But I want to know every single time they did, and who."
 
@@ -19,8 +19,8 @@
 
 - 10 agents. Queue depth today is invisible; they want oldest-first with the score visible.
 - "My agents need to see the face photo and the ID photo side by side. Otherwise what are they reviewing?" — asked about the ID number specifically: *"Honestly they don't need the number. They need the face."*
-- Re-verification: "Sometimes the photo is genuinely bad and the customer sends a better one. We need to be able to run it again." Told it costs money per call: *"Then put a big warning on the button. But don't take it away."* **(explicit, authorized, audited re-verification — not automatic retry)**
-- **"If the vendor never answers, just approve it and we'll check later — we can't leave customers hanging."** *(Facilitator note: this directly contradicts Khun Pim and the vision doc. Do NOT auto-approve on vendor failure. The team must catch this and push back — it is the single most dangerous sentence in this document.)*
+- Re-verification: "Sometimes the photo is genuinely bad and the customer sends a better one. We need to be able to run it again." Told it costs money per call: *"Then put a big warning on the button. But don't take it away."*
+- **"If the vendor never answers, just approve it and we'll check later — we can't leave customers hanging."**
 - Blocklist hits: "If someone is on the sanctions list, that is not a review, that is a stop. Do not put those in my queue." Then: "…but the name matching had better be good, I am not explaining to a customer that they share a surname with someone."
 
 ## From: Khun Golf — Vendor Manager (short call, he was in a taxi)
@@ -37,7 +37,7 @@
 > also can the app poll a status endpoint? we don't want to do websockets for v1
 > and please don't make us upload the image twice if verification fails, our users are on 4G in a rice field"
 
-- **(The last point is a real design input: a re-verification should reuse the stored images, not require a fresh upload. But note it costs a vendor call either way.)**
+- **(A real design input from the mobile squad — decide how re-verification interacts with the stored images, and remember the vendor bills per call either way.)**
 
 ## From: Khun Tan — Finance (one line, forwarded email)
 

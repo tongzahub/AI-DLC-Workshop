@@ -128,10 +128,11 @@ in these files — including the places where they contradict each other.
 - The acceptance snapshot in `change-request.md` demos exactly as written — signed event within
   30 s, 5 retries visible after you stop the receiver, R-017 and R-023 flagged
 - `GET /cod/summary?date=` matches `expected-cod-summary.csv` for **both 15 and 16 September**.
-  The 16th is the one that proves you implemented the 20:00 Bangkok cutoff and not a UTC day
+  The 16th is the one that proves you implemented the 20:00 Bangkok cutoff and not a UTC day.
+  Numeric columns and flags must match exactly; the `reason` column is explanatory text
 - **All pre-existing tests pass unmodified**; existing endpoint responses byte-compatible
-- New money fields are integer satang; the float defect in the old code is at minimum documented
-  with a remediation note
+- New money fields are integer satang; any money-handling defect you find in the old code is at
+  minimum documented with a remediation note
 - Webhook events signed (HMAC-SHA256, `X-Tex-Signature`) and duplicate-tolerant by design
 - RE artifacts corrected by the team where the AI guessed wrong — corrections visible in `aidlc-docs/`
 

@@ -68,7 +68,7 @@ Campaign selection is **best single multiplier per line item** given (category, 
 
 | File | What it is |
 |---|---|
-| `sample-data/transactions.csv` | 40 POS sales (86 line items) plus 3 refunds — 2 full and 1 partial. Columns: `transactionId, type, originalTransactionId, date, time, storeId, memberId, tier, lineNo, category, amountTHB`. Refund lines carry negative amounts |
+| `sample-data/transactions.csv` | 40 POS sales (81 line items) plus 3 refunds — 2 full and 1 partial. Columns: `transactionId, type, originalTransactionId, date, time, storeId, memberId, tier, lineNo, category, amountTHB`. Refund lines carry negative amounts |
 | `sample-data/members.csv` | The 8 members with tier and join date — stub the Member DB from this |
 | `sample-data/campaign-examples.md` | The 5 campaigns marketing wants to run, the overlap questions, and how to keep x2.5 out of floating point |
 | `sample-data/expected-points.csv` | **The answer key.** Points your earn API must post for every transaction, with the reasoning for the twelve deliberately tricky ones |

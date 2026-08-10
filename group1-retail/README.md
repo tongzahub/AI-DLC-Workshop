@@ -115,7 +115,9 @@ in these files — including the places where they contradict each other.
 ## 6 · Definition of Done
 
 - Earn API reproduces **every row** of `sample-data/expected-points.csv` — best single
-  multiplier, x2.5 held as the integer 2500, floor once per basket (**TX90007 is 29 points, not 27**)
+  multiplier, x2.5 held as the integer 2500, floor once per basket (**TX90007 is 29 points, not 27**).
+  Checker provided: `node sample-data/check-points.mjs <your-output.csv>` diffs any CSV of
+  `transactionId,pointsPosted` against the answer key — run it before your demo
 - Refund clawback works for full **and** partial refunds (RF90001–3); negative balances allowed;
   every change is a ledger entry
 - Earn is idempotent by `transactionId` — show the test that proves the POS retry is safe
@@ -150,7 +152,7 @@ in these files — including the places where they contradict each other.
 | The AI proposes something your tech environment prohibits | Say so at the gate and point at the rule. Do not silently accept it, and do not switch the rule off |
 | You cannot answer a question from the documents | Record an assumption, say it is an assumption, and move on. Timebox it — an honest recorded assumption scores better than twenty minutes of debate |
 | Kiro suggests switching to Spec mode | Decline. Stay in Vibe mode; AI-DLC replaces that workflow |
-| Your points are off by one or two | You floored in the wrong place. Check `expected-points-by-line.csv` — it shows the milli-points per line so you can see which line disagrees |
+| Your points are off by one or two | You floored in the wrong place. Run `node sample-data/check-points.mjs your-points.csv` — it diffs every transaction against the answer key and prints the winning campaign and milli-points per line for each mismatch |
 
 ---
 

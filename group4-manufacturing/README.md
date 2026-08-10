@@ -135,7 +135,8 @@ in these files — including the places where they contradict each other.
   production day
 - The original 2 tests still pass, **plus your team's written answer to: why did they never
   catch these bugs?**
-- `RUNBOOK.md` — one page ops can actually use
+- `RUNBOOK.md` — one page ops can actually use (`RUNBOOK-template.md` in this folder is the
+  skeleton to fill in)
 
 ---
 

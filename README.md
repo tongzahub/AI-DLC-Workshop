@@ -44,8 +44,9 @@ your-workspace/
   AIDLC-Workshop-Facilitator/  <- private; its checks expect the kit as a sibling
 ```
 
-Participants get **only their own group folder** plus `Participant-Setup-Guide.docx`, by USB or
-zip. They run `git init` **inside their group folder** — they do not clone this repo, because
+Participants get **only their own group folder** plus `Participant-Setup-Guide.docx`,
+`AI-DLC-Cheat-Sheet.md` and `Workshop-Agenda.md`, by USB or zip — and
+`Pre-Workshop-Checklist.md` by email, 2-3 days earlier. They run `git init` **inside their group folder** — they do not clone this repo, because
 committing `aidlc-docs/` is one of their deliverables and belongs in their own history.
 
 Nothing in this repository reveals the answers to another group's exercise. The answer-key CSVs
@@ -65,6 +66,9 @@ of them deliberately fails the national-ID check digit**, so none can belong to 
 
 ```
 Participant-Setup-Guide.docx   how to install the rules, drive the workflow, what is expected
+AI-DLC-Cheat-Sheet.md          the one-page map of stages, gates and extensions
+Workshop-Agenda.md             the two-day timetable and the four checkpoints
+Pre-Workshop-Checklist.md      send to every team 2-3 days before Day 1
 
 group1-retail/          PointHub    · retail loyalty points        · greenfield
 group2-fintech/         SwiftKYC    · consumer-lending e-KYC       · greenfield, regulated
@@ -89,7 +93,7 @@ expected output, the reading order, the ground rules and a troubleshooting table
 
 | | Works in | Runs | Ground truth |
 |---|---|---|---|
-| 1 | `starter-workspace/` — Node 20 + TS toolchain, no `src/` layout | — | `sample-data/expected-points.csv` — 40 sales + 3 refunds |
+| 1 | `starter-workspace/` — Node 20 + TS toolchain, no `src/` layout | `sample-data/check-points.mjs` — answer-key diff | `sample-data/expected-points.csv` — 40 sales + 3 refunds |
 | 2 | `starter-workspace/` — Python 3.12 toolchain, no app layout | `python mock_verifyme.py` | the mock's scripted outcomes + `GET /_admin/billing` |
 | 3 | `starter-code/` — the running service | `starter-code/seed_cod.py`, `webhook_receiver.py` | `expected-cod-summary.csv` — 2 settlement days |
 | 4 | `starter-code/` — the running service | `starter-code/seed.py` | `expected-oee-l03.csv`, `expected-oee-all-lines.csv` |

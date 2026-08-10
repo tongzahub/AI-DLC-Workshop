@@ -16,7 +16,7 @@
 
 - Existing endpoint paths, methods, and response shapes must not change (merchant compatibility).
 - Additive DB migrations only (new tables / new columns with defaults).
-- New money fields: **integer satang**, never float. (You will find floats in the existing code — new code must not copy that pattern; discuss remediation scope with the facilitator.) The CSV is in whole THB; 560 THB = 56000 satang.
+- New money fields: **integer satang**, never float. If Reverse Engineering surfaces a pattern in the existing code that violates this, new code must not copy it — discuss remediation scope with the facilitator. The CSV is in whole THB; 560 THB = 56000 satang.
 - Webhook signatures: HMAC-SHA256 over the raw body with the merchant's secret, header `X-Tex-Signature`. The test receiver accepts both `sha256=<hex>` and a bare `<hex>`, and answers 401 on a bad or missing signature.
 - Timezone Asia/Bangkok for the 20:00 COD cutoff. **Settlement day D = 20:00 on D−1 (inclusive) → 20:00 on D (exclusive), Asia/Bangkok.** A collection recorded at exactly 20:00:00 belongs to day D+1.
 - Existing timestamps are stored as **naive UTC strings ending in `Z`** (`datetime.utcnow().isoformat() + "Z"`). 20:00 Bangkok is 13:00Z, so a UTC calendar day produces the wrong settlement day. Keep writing the same format for new rows; convert when you apply the business rule.
@@ -44,4 +44,4 @@
 
 ## What Reverse Engineering Should Produce First
 
-Before any new feature work, the AI should generate its standard RE artifacts (business overview, architecture, code structure, API documentation, component inventory, technology stack, dependencies, code quality assessment). The team must **review and correct** them — at least 2 deliberate quirks exist in the codebase that the AI should flag (do not tell the AI in advance; see facilitator guide).
+Before any new feature work, the AI should generate its standard RE artifacts (business overview, architecture, code structure, API documentation, component inventory, technology stack, dependencies, code quality assessment). The team must **review and correct** them — at least 2 deliberate quirks exist in the codebase that the AI should flag — do not tell the AI in advance what to look for; review its artifacts critically and dispose of each finding on record.

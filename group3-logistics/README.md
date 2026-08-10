@@ -98,7 +98,7 @@ in these files — including the places where they contradict each other.
 4. **Source your answers.** From the documents in section 3. Where they conflict, the Product
    Owner decides and the Scribe records **why** in `team-log.md`.
 5. **Record the why, not just the what.** "We chose b" is worth nothing. "We chose b because
-   Finance said the 20:00 sheet is already printed" is worth everything.
+   Finance explained how their day closes, over the reading the existing code implies" is worth everything.
 6. **Rotate the keyboard.** Driver, Product Owner, Reviewer, Scribe — swap at least once per
    half day. Track it in `team-log.md`.
 
@@ -128,7 +128,6 @@ in these files — including the places where they contradict each other.
 - The acceptance snapshot in `change-request.md` demos exactly as written — signed event within
   30 s, 5 retries visible after you stop the receiver, R-017 and R-023 flagged
 - `GET /cod/summary?date=` matches `expected-cod-summary.csv` for **both 15 and 16 September**.
-  The 16th is the one that proves you implemented the 20:00 Bangkok cutoff and not a UTC day.
   Numeric columns and flags must match exactly; the `reason` column is explanatory text
 - **All pre-existing tests pass unmodified**; existing endpoint responses byte-compatible
 - New money fields are integer satang; any money-handling defect you find in the old code is at

@@ -18,8 +18,7 @@
 - `GET /oee/{line_id}?date=` response may gain fields but must keep existing ones.
 - Production day = 08:00 Asia/Bangkok → 08:00 next day. All day-bucketing must use this rule.
 - Idempotency: same `reading_id` ingested any number of times must yield identical stored state and identical daily numbers. Decide (and document) behavior when the same `reading_id` arrives with a different payload.
-- **Rounding: 4 decimal places, ROUND_HALF_UP** — the plant's Excel sheet has always rounded half-up and the ground-truth file was hand-calculated that way. Python's built-in `round()` uses banker's rounding and will give you `0.9062` where the shift log says `0.9063`; use `decimal.Decimal(...).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)`.
-- **Round only at the edge.** Compute availability × performance × quality at full precision and round the result; do not multiply already-rounded factors (that gives 0.8228 instead of 0.8229 on 15 Sep).
+- **Reported values carry 4 decimal places, and they must match the plant's own hand calculations exactly** — the engineers check the dashboard against figures they worked out themselves, and `expected-oee-l03.csv` is those figures. If your fourth decimal is off by one, the difference is real and worth understanding before you paper over it.
 - Every fix needs: a failing regression test first, the fix, and the test passing — plus property-based tests per the vision doc.
 
 ## Prohibited

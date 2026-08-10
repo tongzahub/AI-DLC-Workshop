@@ -143,8 +143,9 @@ in these files — including the places where they contradict each other.
 - Zero duplicate vendor submissions per application — `GET localhost:9310/_admin/billing` shows
   an empty `double_billed` map; re-verification is an explicit `OPS_REVIEWER` action
 - ID numbers encrypted at rest and masked in **100%** of log lines
-- **Blocklist screening stops all three seeded hits** — references ending `1` (exact ID), `3`
-  (fuzzy name only) and `7` (exact name) — even though all three pass face match at 0.97
+- **Blocklist screening stops every reference that should be stopped.** Several listed
+  identities pass face match at 0.97, so face match alone will not do it. Work out which
+  references those are from `blocklist.csv` and what the business asked for
 - Erasure endpoint purges biometrics but retains the 7-year audit skeleton
 - `aidlc-docs/` complete, with the Security extension decision and its consequences visible in
   the design docs

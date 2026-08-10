@@ -57,8 +57,9 @@ Two lint rules exist to catch the prohibitions in the technical environment befo
 reviewer has to:
 
 - importing `prisma`, `typeorm`, `sequelize` or `axios` is an **error**
-- `parseFloat` is an **error** — points and money are integers here (see the milli-points
-  scheme in `../sample-data/campaign-examples.md`)
+- `parseFloat` is an **error** — floating point is prohibited for money and points
+  (`../technical-environment.md`). Marketing still runs a x2.5 multiplier; reconciling those
+  two is your design problem
 
 If the workflow proposes a design that needs one of those, that is a conversation to have
 at the gate and record — not a rule to switch off quietly.

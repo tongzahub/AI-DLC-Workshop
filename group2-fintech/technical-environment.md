@@ -70,15 +70,19 @@ Do not call any real service.
 - `stakeholder-notes.md` — raw interview notes from Compliance, Operations, the Vendor Manager, the mobile squad and Finance. They contain the answers to most of the AI's questions, two genuine contradictions, and **one instruction that must not be followed** — finding it is part of the exercise
 - `starter-workspace/` — Python 3.12 toolchain only (FastAPI, pytest, ruff with the bandit rules on, strict mypy). No application layout: that is Application Design's job
 
-### Blocklist screening must catch all three
+### Blocklist screening
 
-| Submit a reference ending in | Vendor returns | Your screening must |
-|---|---|---|
-| `1` | `SOMSAK TESTASIRI` / `1103700111111`, face 0.97 | reject/flag on **exact ID** (BL-001) |
-| `3` | `WICHAI SAETESTA` / clean ID, face 0.97 | reject/flag on **fuzzy name ≥ 0.9** — the list has `WICHAI SAE-TESTA` and `VICHAI SAETESTA`, neither spelled that way |
-| `7` | `SOMPORN CHAROENTEST` / clean ID, face 0.97 | reject/flag on exact name (BL-008) |
+The vendor returns an identity; deciding what to do with it is yours. Compliance and Operations
+both had something to say about how that matching should behave, and they are not saying quite
+the same thing — `stakeholder-notes.md` has both, and `vision-document.md` has the threshold
+Compliance settled on.
 
-All three pass face match. If your happy path auto-approves them, screening is not wired in.
+What you can rely on: the mock returns a **different identity depending on the last digit of
+your `reference`**, and some of those identities are on `blocklist.csv`. Face match will not
+stop them — several of the listed identities score 0.97, the same as a clean applicant. If your
+happy path approves everyone who passes face match, screening is not wired in.
+
+Work out which references should be stopped, and why, before you look at the Definition of Done.
 
 ## Non-Functional Expectations
 

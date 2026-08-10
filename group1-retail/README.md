@@ -75,9 +75,9 @@ Then let the workflow lead.
 | 1 | `Group1-Project-Brief.docx` | Your mission, the shape of the two days, the ground rules |
 | 2 | `Group1-Business-Project-Memo.docx` | Why the business is doing this, signed by the CCO. The success metrics come from here |
 | 3 | `vision-document.md` | Scope, out-of-scope, success metrics — the primary input |
-| 4 | `technical-environment.md` | Company stack, prohibited libraries, the points arithmetic, redemption parameters |
+| 4 | `technical-environment.md` | Company stack, prohibited libraries, how to run locally, integration contracts. **Not** the business rules — those come from the interviews |
 | 5 | `stakeholder-notes.md` | Raw interview notes from four stakeholders. **Contains the contradictions you must resolve** |
-| 6 | `sample-data/campaign-examples.md` | The 5 campaigns your rules engine must handle, and the overlap traps |
+| 6 | `sample-data/campaign-examples.md` | The 5 campaigns your rules engine must handle, and the questions they raise |
 | 7 | `sample-data/expected-points.csv` | The answer key. Your earn API must reproduce every row |
 
 Read them **before** the AI asks its first question. Almost every answer it wants is already
@@ -98,7 +98,7 @@ in these files — including the places where they contradict each other.
 4. **Source your answers.** From the documents in section 3. Where they conflict, the Product
    Owner decides and the Scribe records **why** in `team-log.md`.
 5. **Record the why, not just the what.** "We chose b" is worth nothing. "We chose b because
-   Khun Nok said 'we'd go broke if they stack'" is worth everything.
+   Khun Nok said X, over option a which Khun Beer would have preferred" is worth everything.
 6. **Rotate the keyboard.** Driver, Product Owner, Reviewer, Scribe — swap at least once per
    half day. Track it in `team-log.md`.
 
@@ -121,8 +121,7 @@ in these files — including the places where they contradict each other.
 
 ## 6 · Definition of Done
 
-- Earn API reproduces **every row** of `sample-data/expected-points.csv` — best single
-  multiplier, x2.5 held as the integer 2500, floor once per basket (**TX90007 is 29 points, not 27**).
+- Earn API reproduces **every row** of `sample-data/expected-points.csv`.
   Checker provided: `node sample-data/check-points.mjs <your-output.csv>` diffs any CSV of
   `transactionId,pointsPosted` against the answer key — run it before your demo
 - Refund clawback works for full **and** partial refunds (RF90001–3); negative balances allowed;
@@ -159,7 +158,7 @@ in these files — including the places where they contradict each other.
 | The AI proposes something your tech environment prohibits | Say so at the gate and point at the rule. Do not silently accept it, and do not switch the rule off |
 | You cannot answer a question from the documents | Record an assumption, say it is an assumption, and move on. Timebox it — an honest recorded assumption scores better than twenty minutes of debate |
 | Kiro suggests switching to Spec mode | Decline. Stay in Vibe mode; AI-DLC replaces that workflow |
-| Your points are off by one or two | You floored in the wrong place. Run `node sample-data/check-points.mjs your-points.csv` — it diffs every transaction against the answer key and prints the winning campaign and milli-points per line for each mismatch |
+| Your points are off by one or two | That is a design decision that disagrees with what the business asked for, not a typo. Run `node sample-data/check-points.mjs your-points.csv` to see which transactions diverge, then go back to what the stakeholders actually said |
 
 ---
 

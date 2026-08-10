@@ -55,30 +55,20 @@ to make it.
 - **POS**: calls PointHub synchronously at checkout. If PointHub is down, POS completes the sale and queues the earn request for retry — so **earn must be idempotent** (`transactionId` is the idempotency key).
 - **POS refunds**: a refund arrives as its own transaction with `type = REFUND`, its own `transactionId`, an `originalTransactionId`, and negative line amounts. A refund may return **all** lines of the original or only **some** of them. It is idempotent on its own `transactionId` like any other earn call.
 
-## Points Arithmetic (no floats — this is how you keep audit reproducibility)
+## Money and Points — the constraint, not the solution
 
-| Quantity | Representation |
-|---|---|
-| Base rate | 25 THB = 1 point |
-| Campaign multiplier | integer scaled by 1000 — `x2.5` is stored as `2500`, never as `2.5` |
-| Line value | `milli_points = amountTHB * (mult_x1000 / 25)` — the divisor is exact for every allowed multiplier (40, 80, 100, 120, 200) |
-| Basket value | sum of the line milli-points |
-| Posted points | `basket_milli // 1000` — floor, **once**, at basket level, never per line |
+Three requirements have to hold at the same time, and satisfying all three is a design problem
+this document deliberately does not solve for you:
 
-Campaign selection is **best single multiplier per line item** given (category, tier, date) — never stacked, never summed. When two campaigns tie on multiplier, the tie-break must be deterministic and the chosen campaign recorded on the ledger entry, or the replay is not reproducible.
+1. **No floating point** anywhere in money or points arithmetic (see Prohibited, above).
+2. **Marketing runs fractional multipliers.** C3 is x2.5 and they will not drop it.
+3. **A replay of the year must reproduce the same balances, exactly** — Finance and the external
+   auditor both depend on it, and this was an audit finding last year.
 
-**Clawback on refund**: recompute the original basket without the returned lines, floor it, and reverse the difference. For a full refund that reduces to "reverse exactly what the original earned". Reversing each returned line independently gives a different (wrong) answer — see `RF90003` in the answer key.
-
-## Redemption Parameters (from Finance, fixed for MVP)
-
-| Parameter | Value |
-|---|---|
-| Point value on redemption | 1 point = 0.25 THB (25 satang — integer satang everywhere) |
-| Minimum redemption | 100 points per transaction |
-| Redemption granularity | multiples of 100 points |
-| Maximum per basket | 50% of the basket total, rounded **down** to the nearest allowed multiple |
-| Redeeming on discounted items | allowed — no exclusions in MVP |
-| Earning on the redeemed portion | no — points are earned on the amount actually paid after the point discount |
+The base earn rate, how campaigns combine, where rounding happens and how a refund is reversed
+are **business decisions, not platform standards**. They are not written here on purpose. Ask
+the business, and record what they tell you — `stakeholder-notes.md` has the interviews, and
+in two places the stakeholders contradict each other.
 
 ## Non-Functional Expectations
 
@@ -93,9 +83,9 @@ Campaign selection is **best single multiplier per line item** given (category, 
 |---|---|
 | `sample-data/transactions.csv` | 40 POS sales (81 line items) plus 3 refunds — 2 full and 1 partial. Columns: `transactionId, type, originalTransactionId, date, time, storeId, memberId, tier, lineNo, category, amountTHB`. Refund lines carry negative amounts |
 | `sample-data/members.csv` | The 8 members with tier and join date — stub the Member DB from this |
-| `sample-data/campaign-examples.md` | The 5 campaigns marketing wants to run, the overlap questions, and how to keep x2.5 out of floating point |
-| `sample-data/expected-points.csv` | **The answer key.** Points your earn API must post for every transaction, with the reasoning for the twelve deliberately tricky ones |
-| `sample-data/expected-points-by-line.csv` | The same answer broken down per line item: winning campaign, multiplier, milli-points |
+| `sample-data/campaign-examples.md` | The 5 campaigns marketing wants to run, and the questions they raise. The answers are in the stakeholder interviews, not here |
+| `sample-data/expected-points.csv` | **The answer key.** The points your earn API must post for every transaction |
+| `sample-data/check-points.mjs` | Diff your posted points against the answer key. On a mismatch it shows the per-line breakdown so you can see where your calculation diverged |
 | `starter-workspace/` | Node 20 + TypeScript 5.5 toolchain only — Express, `pg`, Jest, ESLint, Prettier, already configured to the standards on this page. No `src/` layout: that is Application Design's job |
 
 Replaying the whole file in order (sales then refunds) must leave these balances — this is the finance-reproducibility check in one line:

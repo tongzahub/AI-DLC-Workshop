@@ -125,9 +125,8 @@ in these files — including the places where they contradict each other.
 
 ## 6 · Definition of Done
 
-- `GET /oee/L-03?date=` returns the values in `expected-oee-l03.csv` for **all three days** —
-  on 15 Sep: availability 0.9063 / performance 0.9195 / quality 0.9875 / **OEE 0.8229**
-  (round HALF-UP to 4 dp, and round the product — not already-rounded factors)
+- `GET /oee/L-03?date=` returns the values in `expected-oee-l03.csv` for **all three days**,
+  to the fourth decimal place
 - Maintenance day (L-05, planned 0) returns a sane response, not a 500
 - Seeding the retry burst twice changes nothing (idempotency proven by test), and **L-01 on
   15 Sep comes out at 0.8167 instead of 1.568**
@@ -165,8 +164,8 @@ in these files — including the places where they contradict each other.
 | The AI proposes something your tech environment prohibits | Say so at the gate and point at the rule. Do not silently accept it, and do not switch the rule off |
 | You cannot answer a question from the documents | Record an assumption, say it is an assumption, and move on. Timebox it — an honest recorded assumption scores better than twenty minutes of debate |
 | Kiro suggests switching to Spec mode | Decline. Stay in Vibe mode; AI-DLC replaces that workflow |
-| You get 0.9062 where the answer key says 0.9063 | Python's built-in `round()` is banker's rounding. The plant's Excel sheet rounds **half-up**, and so must you: `Decimal(x).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)` |
-| You get 0.8228 instead of 0.8229 | You multiplied already-rounded factors. Round once, at the product |
+| You get 0.9062 where the answer key says 0.9063 | Your language's default rounding rule is not the only one, and it is not the one the engineer used by hand. Work out which rule reproduces the shift log |
+| You get 0.8228 instead of 0.8229 | Look at *where* in the calculation you round, and how many times |
 | The numbers still look wrong after one fix | The bugs interact. INC-1044's day-bucketing changes the inputs INC-1043 is computed from — fix them in the order the evidence supports, not the order they are numbered |
 | Tempted to correct the number in the endpoint | Prohibited. Fix the calculation and the bucketing at the source |
 

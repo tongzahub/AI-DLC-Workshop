@@ -69,20 +69,49 @@ Then let the workflow lead.
 
 ---
 
-## 3 · What to read, in what order
+## 3 · What is in this folder
 
-| Order | File | Why |
+### Read these first, in this order
+
+| # | File | Why |
 |---|---|---|
 | 1 | `Group4-Project-Brief.docx` | Your mission, the shape of the two days, the ground rules |
-| 2 | `bug-reports.md` | The three incident tickets — **these are your requirements input**, with the exact numbers to reproduce |
+| 2 | `bug-reports.md` | **The three incident tickets.** Your actual requirements input, with the exact values to reproduce before you change anything |
 | 3 | `Group4-Business-Project-Memo.docx` | Why wrong OEE is a labour-relations problem, not just a technical one |
-| 4 | `vision-document.md` | Context, the 08:00→08:00 production-day rule, scope limits |
-| 5 | `technical-environment.md` | Frozen gateway contract, the rounding rule, prohibited shortcuts |
-| 6 | `starter-code/` | The service. Small enough to read completely — do that |
-| 7 | `expected-oee-l03.csv` + `expected-oee-all-lines.csv` | The hand-calculated ground truth your fixes must reproduce |
+| 4 | `Group4-Kickoff-Deck.pptx` | The same story as the memo, as the plant would present it |
+| 5 | `vision-document.md` | Context, the production-day rule, what is explicitly out of scope |
+| 6 | `technical-environment.md` | The boundary: frozen gateway contract, what the response must keep, prohibited shortcuts |
 
-Read them **before** the AI asks its first question. Almost every answer it wants is already
-in these files — including the places where they contradict each other.
+Read them **before** the AI asks its first question — but note what is *not* here: nobody can
+tell you how the service works or where the bugs are. That is what Reverse Engineering and your
+own root-cause analysis are for.
+
+### The existing system
+
+| | What it is |
+|---|---|
+| `starter-code/` | The running LineMetrics service. `pip install -r requirements.txt`, then `uvicorn app.main:app`. Small enough to read completely — do that |
+| `starter-code/tests/` | Two tests that pass today, and passed every day the dashboard was wrong. **Keep them passing**, and be ready to say what they were and were not asserting |
+| `starter-code/seed.py` | Loads the September plan and readings: `python seed.py ../sample-readings.jsonl`. Wipes and reloads, so it is safe to re-run |
+
+### Data you build against
+
+| File | What it is |
+|---|---|
+| `sample-readings.jsonl` | September gateway readings for four production lines, exactly as the gateways sent them |
+| `expected-oee-l03.csv` | **The answer key** for line L-03 — the figures the plant engineer worked out by hand, for three production days |
+| `expected-oee-all-lines.csv` | The same for every seeded line and day, including a maintenance day where the values are undefined |
+
+### Files you fill in and hand back
+
+| File | Who owns it |
+|---|---|
+| `team-log.md` | The Scribe, continuously — roles, decisions with the **why**, root causes with evidence, gate approvals, retro |
+| `traceability-worksheet.md` | The whole team, Day 2 morning — five behaviours walked backwards to the sentence that caused them |
+| `RUNBOOK-template.md` | Copy it to `RUNBOOK.md` and fill it in. One page ops can actually use, and it is on the Definition of Done |
+| `aidlc-docs/` | The workflow creates it. Do not hand-edit it |
+
+See §7 for what "handing back" means.
 
 ---
 

@@ -68,20 +68,49 @@ Then let the workflow lead.
 
 ---
 
-## 3 · What to read, in what order
+## 3 · What is in this folder
 
-| Order | File | Why |
+### Read these first, in this order
+
+| # | File | Why |
 |---|---|---|
 | 1 | `Group3-Project-Brief.docx` | Your mission, the shape of the two days, the ground rules |
-| 2 | `change-request.md` | CR-2026-081 verbatim from Operations, the settlement-day rule, and the acceptance demo you will be asked to run |
-| 3 | `Group3-Business-Project-Memo.docx` | Why COD variance and WISMO calls matter to the business |
-| 4 | `vision-document.md` | Business context, scope, what is explicitly out |
-| 5 | `technical-environment.md` | **The brownfield hard rules**: what must not change, additive-only migrations, the HMAC spec, the tooling you have |
-| 6 | `starter-code/` | The service itself. Let Reverse Engineering document it first, then review what it produced |
-| 7 | `expected-cod-summary.csv` | Finance's hand-worked answer for two settlement days |
+| 2 | `change-request.md` | **CR-2026-081, verbatim from Operations.** Your actual requirements input, including the acceptance demo they will ask you to run |
+| 3 | `Group3-Business-Project-Memo.docx` | Why COD variance and WISMO calls matter enough to fund this |
+| 4 | `Group3-Kickoff-Deck.pptx` | The same story as the memo, as the sponsor would present it |
+| 5 | `vision-document.md` | Business context, scope, what is explicitly out |
+| 6 | `technical-environment.md` | The brownfield boundary: what must not change, additive-only migrations, the webhook signature spec |
 
-Read them **before** the AI asks its first question. Almost every answer it wants is already
-in these files — including the places where they contradict each other.
+Read them **before** the AI asks its first question — but note what is *not* here: nobody can
+tell you how the existing service works. That is what Reverse Engineering is for, and reviewing
+what it produces is the first real work of the two days.
+
+### The existing system
+
+| | What it is |
+|---|---|
+| `starter-code/` | The running ParcelTrack service. `pip install -r requirements.txt`, then `uvicorn app.main:app`. It is undocumented on purpose |
+| `starter-code/tests/` | Three tests that pass today. **They must still pass, unmodified, at every point** — that is your backward-compatibility baseline |
+| `starter-code/seed_cod.py` | Loads a COD day into the existing tables: `python seed_cod.py ../sample-cod-day.csv`. Safe to re-run. It exists because `POST /parcels` generates its own ids, so the CSV's parcel ids cannot be created through the API |
+
+### Data and tools you build against
+
+| File | What it is |
+|---|---|
+| `sample-cod-day.csv` | 31 deliveries with Bangkok-local timestamps, including rows on both sides of the cutoff Finance described |
+| `merchants.csv` | The three integrated merchants with their callback URL and webhook secret. Register these through your new API |
+| `expected-cod-summary.csv` | **The answer key** — Finance's hand-worked figures for two settlement days |
+| `webhook_receiver.py` | The merchant test receiver. Standard library only. Verifies your HMAC signature, and `--fail` makes it answer 500 so you can demo the retry path. `python webhook_receiver.py --help` |
+
+### Files you fill in and hand back
+
+| File | Who owns it |
+|---|---|
+| `team-log.md` | The Scribe, continuously — roles, decisions with the **why**, what Reverse Engineering found and what you decided to do about it, gate approvals, retro |
+| `traceability-worksheet.md` | The whole team, Day 2 morning — five behaviours walked backwards to the sentence that caused them |
+| `aidlc-docs/` | The workflow creates it, starting with the Reverse Engineering artifacts. Correct them where the AI guessed wrong — those corrections are scored |
+
+See §7 for what "handing back" means.
 
 ---
 

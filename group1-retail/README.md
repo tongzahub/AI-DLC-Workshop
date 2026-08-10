@@ -69,20 +69,49 @@ Then let the workflow lead.
 
 ---
 
-## 3 · What to read, in what order
+## 3 · What is in this folder
 
-| Order | File | Why |
+### Read these first, in this order
+
+| # | File | Why |
 |---|---|---|
 | 1 | `Group1-Project-Brief.docx` | Your mission, the shape of the two days, the ground rules |
-| 2 | `Group1-Business-Project-Memo.docx` | Why the business is doing this, signed by the CCO. The success metrics come from here |
-| 3 | `vision-document.md` | Scope, out-of-scope, success metrics — the primary input |
-| 4 | `technical-environment.md` | The few platform standards you cannot change, and the integration contracts. Short on purpose — **everything not in it is your decision** |
-| 5 | `stakeholder-notes.md` | Raw interview notes from four stakeholders. **Contains the contradictions you must resolve** |
-| 6 | `sample-data/campaign-examples.md` | The 5 campaigns your rules engine must handle, and the questions they raise |
-| 7 | `sample-data/expected-points.csv` | The answer key. Your earn API must reproduce every row |
+| 2 | `Group1-Business-Project-Memo.docx` | The CCO's authorisation. Why the business is doing this, the budget, and the numbers success is measured by |
+| 3 | `Group1-Kickoff-Deck.pptx` | The same story as the memo, as the sponsor would present it. Skim it — it is the fastest way for the whole team to share context |
+| 4 | `vision-document.md` | Scope, what is explicitly out of scope, success metrics. Your primary input |
+| 5 | `technical-environment.md` | The few platform standards you cannot change, and the contracts of systems other teams own. Short on purpose — **everything not in it is your decision** |
+| 6 | `stakeholder-notes.md` | Raw interview notes from four stakeholders. **This is where the answers are** — and where they disagree with each other |
+| 7 | `sample-data/campaign-examples.md` | The 5 campaigns your rules engine must handle, and the questions they raise |
 
-Read them **before** the AI asks its first question. Almost every answer it wants is already
-in these files — including the places where they contradict each other.
+Read them **before** the AI asks its first question. Almost everything it will ask is already
+answered somewhere in here — including the places where two people answer differently.
+
+### Data you build against
+
+| File | What it is |
+|---|---|
+| `sample-data/transactions.csv` | 40 POS sales (81 line items) plus 3 refunds. This is what you replay through your earn API |
+| `sample-data/members.csv` | The 8 members with tier and join date. Stub the Member DB from this |
+| `sample-data/expected-points.csv` | **The answer key** — the points your API must post for every transaction |
+| `sample-data/expected-points-by-line.csv` | The same answer broken down per line item. You do not need to read it; the checker uses it to explain a mismatch |
+| `sample-data/check-points.mjs` | `node sample-data/check-points.mjs your-output.csv` — diffs any CSV of `transactionId,pointsPosted` against the answer key. Run it before your demo |
+
+### Your environment
+
+| | |
+|---|---|
+| `local-environment/` | A `docker-compose.yml` that gives you an empty PostgreSQL, and `check-db.mjs` to prove it is reachable. **Not your project** — it has its own README explaining why |
+| `.gitignore` | Already covers `node_modules/`, `.env`, local databases. Your `git init` starts clean |
+
+### Files you fill in and hand back
+
+| File | Who owns it |
+|---|---|
+| `team-log.md` | The Scribe, continuously — roles, decisions with the **why**, contradictions you resolved, gate approvals, hand edits, retro |
+| `traceability-worksheet.md` | The whole team, Day 2 morning — five behaviours walked backwards to the sentence that caused them |
+| `aidlc-docs/` | The workflow creates it. Do not hand-edit it |
+
+See §7 for what "handing back" means.
 
 ---
 

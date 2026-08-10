@@ -81,21 +81,51 @@ Then let the workflow lead.
 
 ---
 
-## 3 · What to read, in what order
+## 3 · What is in this folder
 
-| Order | File | Why |
+### Read these first, in this order
+
+| # | File | Why |
 |---|---|---|
 | 1 | `Group2-Project-Brief.docx` | Your mission, the shape of the two days, the ground rules |
-| 2 | `Group2-Business-Project-Memo.docx` | Why the business is doing this, and what compliance failure costs today |
-| 3 | `vision-document.md` | Scope, the 0.95 / 0.80 decision thresholds, PDPA obligations |
-| 4 | `technical-environment.md` | The few platform standards you cannot change, the crypto requirement and the role model. Short on purpose — **everything not in it is your decision** |
-| 5 | `stakeholder-notes.md` | Compliance, Operations, Vendor Manager, mobile squad, Finance. **Two real contradictions — and one instruction you must not follow** |
-| 6 | `verifyme-api-contract.md` | The vendor API, and how the mock's behaviour is driven by the last digit of your reference |
-| 7 | `consent-text-v1.md` | The versioned consent text and what must be recorded per consent |
-| 8 | `blocklist.csv` | 25 screening entries, including romanisation variants that defeat exact matching |
+| 2 | `Group2-Business-Project-Memo.docx` | The authorisation. Why the business is doing this, and what compliance failure costs today |
+| 3 | `Group2-Kickoff-Deck.pptx` | The same story as the memo, as the sponsor would present it. Skim it to get the whole team on the same page |
+| 4 | `vision-document.md` | Scope, the decision thresholds, the PDPA obligations. Your primary input |
+| 5 | `technical-environment.md` | The few platform standards you cannot change, the crypto requirement and the role model. Short on purpose — **everything not in it is your decision** |
+| 6 | `stakeholder-notes.md` | Compliance, Operations, the Vendor Manager, the mobile squad, Finance. **Two of them contradict each other, and one asks for something you should refuse** |
+| 7 | `verifyme-api-contract.md` | The vendor's API, and how the mock behaves — the last digit of your `reference` decides what comes back |
+| 8 | `consent-text-v1.md` | The exact consent text you must serve, and what has to be recorded each time someone agrees to it |
 
-Read them **before** the AI asks its first question. Almost every answer it wants is already
-in these files — including the places where they contradict each other.
+Read them **before** the AI asks its first question. Almost everything it will ask is already
+answered somewhere in here — including the places where two people answer differently.
+
+### Data and tools you build against
+
+| File | What it is |
+|---|---|
+| `mock_verifyme.py` | The e-KYC vendor. `python mock_verifyme.py` — listens on :9310, keep it running all day. It bills per call, rate-limits you, retries webhooks and sometimes delivers twice, exactly like the contract says |
+| `blocklist.csv` | 25 screening entries. Some carry a national ID, some are name-only, and the romanisation is not consistent |
+| `sample-images/` | Base64 ID-card and selfie payloads plus a ready-to-post `sample-submit.json`, so you are not blocked hunting for a photo. Its README shows a one-line smoke test |
+
+There is no answer-key CSV for this group. Your ground truth is the mock's scripted behaviour,
+plus `GET localhost:9310/_admin/billing`, which the Day-2 auditor will read.
+
+### Your environment
+
+| | |
+|---|---|
+| `local-environment/` | A `docker-compose.yml` that gives you an empty PostgreSQL on port **5433**, and `check_db.py` to prove it is reachable. **Not your project** — it has its own README explaining why |
+| `.gitignore` | Already covers `.venv/`, `.env`, `*.key` and `secure-store/`. Keep it that way — the auditor checks |
+
+### Files you fill in and hand back
+
+| File | Who owns it |
+|---|---|
+| `team-log.md` | The Scribe, continuously — roles, decisions with the **why**, contradictions you resolved, gate approvals, hand edits, retro |
+| `traceability-worksheet.md` | The whole team, Day 2 morning — five behaviours walked backwards to the sentence that caused them |
+| `aidlc-docs/` | The workflow creates it. Do not hand-edit it |
+
+See §7 for what "handing back" means.
 
 ---
 

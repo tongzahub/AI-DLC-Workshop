@@ -21,25 +21,26 @@ Install them **into this folder** (the one holding this README). This folder is 
 
 Use the rules version your facilitator names. Do not just grab "latest".
 
-### 1.2 Check your toolchain
+### 1.2 Bring up your environment
 
 ```
-cd starter-workspace
-npm install           # ~470 packages, about 30 s
-npm run typecheck     # silent = clean
-npm test              # 1 suite, 3 tests passed
-npm run lint          # silent = clean
-
-npm run db:up         # PostgreSQL 15 in Docker (first run pulls the image, ~30 s)
-npm run db:ping       # "database is up."
+node -v                   # v20.x or newer
+cd local-environment
+docker compose up -d      # PostgreSQL 15; the first run pulls the image, ~30 s
+docker compose ps         # must say "healthy"
+node check-db.mjs         # "database is up."
 cd ..
 ```
 
-Node 20 or newer, and **Docker Desktop running**. All six commands must be green.
+Node 20 or newer, and **Docker Desktop running**. That is the whole environment.
 
-Everything is local: the database lives in a container on your own machine, listening on
-localhost:5432 only. Nothing here needs a cloud account. `npm run db:down` stops it;
-`docker compose down -v` also throws the data away if you want to start clean.
+There is no starter project. Node 20 and PostgreSQL 15 are the platform standards; the
+framework, the layout, the test runner and how you reach the database are **your team's
+decisions**, made through the workflow and recorded at a gate — so `npm init` and everything
+after it happens when your design says it should, not before.
+
+Everything is local: the database is a container on your own machine on localhost:5432.
+`docker compose down` stops it; `down -v` also throws the data away.
 
 If any of that is not green, call the facilitator **now**, not at 14:00.
 
@@ -50,9 +51,9 @@ the AI-DLC welcome message, and after the first stage an `aidlc-docs/` folder ap
 `aidlc-state.md` and `audit.md` in it. If not, the rules are in the wrong place — call the
 facilitator.
 
-> **Where to open your assistant:** here, at the group folder. Not in `starter-workspace/`.
+> **Where to open your assistant:** here, at the group folder.
 > Everything the workflow needs to answer its own questions — the vision, the technical environment, the stakeholder notes and `sample-data/` — lives at this
-> level. `starter-workspace/` is where the Node project lives — `npm test` and `npm run lint` run from in there.
+> level, and your project root goes here too. `local-environment/` holds only the database.
 
 ---
 
@@ -75,7 +76,7 @@ Then let the workflow lead.
 | 1 | `Group1-Project-Brief.docx` | Your mission, the shape of the two days, the ground rules |
 | 2 | `Group1-Business-Project-Memo.docx` | Why the business is doing this, signed by the CCO. The success metrics come from here |
 | 3 | `vision-document.md` | Scope, out-of-scope, success metrics — the primary input |
-| 4 | `technical-environment.md` | Company stack, prohibited libraries, how to run locally, integration contracts. **Not** the business rules — those come from the interviews |
+| 4 | `technical-environment.md` | The few platform standards you cannot change, and the integration contracts. Short on purpose — **everything not in it is your decision** |
 | 5 | `stakeholder-notes.md` | Raw interview notes from four stakeholders. **Contains the contradictions you must resolve** |
 | 6 | `sample-data/campaign-examples.md` | The 5 campaigns your rules engine must handle, and the questions they raise |
 | 7 | `sample-data/expected-points.csv` | The answer key. Your earn API must reproduce every row |

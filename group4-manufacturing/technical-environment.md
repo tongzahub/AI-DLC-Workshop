@@ -2,21 +2,21 @@
 
 > **Brownfield.** Existing stack is the baseline (see `starter-code/`). This is a fix-and-harden engagement, not a rewrite.
 
-## Existing Stack (must be preserved)
+## The existing stack
 
-| Layer | Technology | Notes |
-|---|---|---|
-| Language | Python 3.12 | |
-| API framework | FastAPI + Pydantic v2 | |
-| Database | SQLite via SQLAlchemy Core | keep it |
-| Tests | pytest (2 exist and pass — keep them passing, note: they never caught the bugs, ask why) |
-| PBT library | Hypothesis (in requirements, unused so far) | the PBT extension rules will put it to work |
+Whatever `starter-code/` is running on. The developer who wrote it left, and the only
+documentation is the code and three failing dashboards. **Reverse Engineering is how you find
+out** — read what it produces before you trust it.
+
+What the plant can tell you is the boundary: **fix it in place.** Same language, same framework,
+same database. This is an incident response, not a rewrite. Hypothesis is already in
+`requirements.txt`, unused — the PBT extension will put it to work.
+
 
 ## Hard Rules
 
 - Gateway payload contract is frozen (vendor firmware): field names/types of `POST /readings` must not change.
 - `GET /oee/{line_id}?date=` response may gain fields but must keep existing ones.
-- Production day = 08:00 Asia/Bangkok → 08:00 next day. All day-bucketing must use this rule.
 - Idempotency: same `reading_id` ingested any number of times must yield identical stored state and identical daily numbers. Decide (and document) behavior when the same `reading_id` arrives with a different payload.
 - **Reported values carry 4 decimal places, and they must match the plant's own hand calculations exactly** — the engineers check the dashboard against figures they worked out themselves, and `expected-oee-l03.csv` is those figures. If your fourth decimal is off by one, the difference is real and worth understanding before you paper over it.
 - Every fix needs: a failing regression test first, the fix, and the test passing — plus property-based tests per the vision doc.
@@ -27,7 +27,7 @@
 |---|---|
 | Rewriting to another framework/DB | fix in place |
 | Fixing numbers by post-processing in the endpoint | fix the calculation/bucketing at the source |
-| Deleting the existing tests | extend them; discuss why they missed the bugs (test-gap analysis is part of the workshop) |
+| Deleting the existing tests | extend them — and account for what they were and were not asserting |
 
 ## Provided Data
 

@@ -2,7 +2,7 @@
 #
 #   docker compose up -d      start it (the first run pulls the image, ~30 s)
 #   docker compose ps         it should say "healthy"
-#   python scripts/db_ping.py prove the app can actually reach it
+#   python check_db.py        prove your machine can reach it
 #   docker compose down       stop it, keep the data
 #   docker compose down -v    stop it and throw the data away (start clean)
 #

@@ -1,81 +1,40 @@
 # Technical Environment: PointHub — Siam MegaMart
 
-> Greenfield service, but it must fit the company's platform standards below.
+> From the CIO office, not from the business. These are the few things the platform team will
+> not let you change. **Everything not listed here is yours to decide** — and to defend at a gate.
 
-## Stack (company standard — use this)
+## Platform standards
 
-| Layer | Technology | Version | Notes |
-|---|---|---|---|
-| Language | TypeScript | 5.x | Strict mode |
-| Runtime | Node.js | 20.x LTS | |
-| API framework | Express | 4.x | Company standard for all services |
-| Database | PostgreSQL | 15 | Runs locally from `starter-workspace/docker-compose.yml`. No ORM — raw SQL with typed query helpers |
-| Cache | Redis | 7 | For balance reads if needed (optional, justify). Not provided — add a service to the compose file if your design earns it |
-| Deployment | out of scope | — | Everything runs on your own machine. No cloud account, no containers to build, no IaC |
-| Auth | API key per calling system + JWT for member-facing endpoints | — | Assume validated upstream at API Gateway; trust `x-member-id` / `x-system-id` headers |
-| Tests | Jest | 29.x | ts-jest, tests in `__tests__/` |
-| Lint | ESLint + Prettier | — | |
-
-## Prohibited (with alternatives)
-
-| Prohibited | Reason | Use Instead |
+| | Standard | Why it is not negotiable |
 |---|---|---|
-| ORMs (Prisma, TypeORM, Sequelize) | Company uses raw SQL with typed helpers | node-postgres typed query functions |
-| Axios | Node 20 has fetch | native fetch |
-| Vitest / Mocha | Standard is Jest | Jest |
-| Floating-point money/points math | Audit reproducibility | integer satang / integer points, explicit rounding functions |
-| Cron inside the API process | Ops standard | a separate job entrypoint the scheduler calls — in the workshop a CLI script you can run by hand is exactly right |
+| Language & runtime | TypeScript on Node.js 20 LTS | every service the platform team operates runs on it |
+| Database | PostgreSQL 15 | the only datastore ops will run in production |
+| Business timezone | Asia/Bangkok | expiry month boundaries and day-of-week rules are read by people in Bangkok |
 
-## Running Locally
+Framework, project layout, test runner, linting, how you talk to the database, how you model
+the domain — none of that is standardised here. Choose, and record why.
 
-Everything runs on the team's own laptop. The only moving part beyond Node is PostgreSQL,
-which comes up from the compose file shipped in `starter-workspace/`:
+## Prohibited
 
-```
-cd starter-workspace
-docker compose up -d      # or: npm run db:up
-npm run db:ping           # must print "database is up."
-```
-
-| | |
+| Prohibited | Reason |
 |---|---|
-| Connection | `postgres://pointhub:pointhub@localhost:5432/pointhub` |
-| Override with | `DATABASE_URL` — read it from the environment, never hard-code it |
-| Port already in use? | change the left-hand number in `docker-compose.yml` and set `DATABASE_URL` to match |
-| Start clean | `docker compose down -v` throws the data away |
+| ORMs (Prisma, TypeORM, Sequelize) | the platform team supports raw SQL with typed query helpers; nobody here can debug an ORM's query planner at 2am |
+| Floating-point arithmetic for money or points | external audit finding last year. A replay of the year's transactions has to reproduce the same balances, exactly |
 
-The database is left in **UTC on purpose.** Business dates here are Asia/Bangkok — expiry month
-boundaries and day-of-week campaign rules — and converting them is the application's job. A
-database that silently thinks in Bangkok time would hide that decision instead of forcing you
-to make it.
+## Integration Contracts
 
-## Integration Contracts (mock these in the workshop)
+These come from systems other teams own. You cannot negotiate them.
 
-- **Member DB (read-only)**: `GET /members/{memberId}` → `{ memberId, tier: "SILVER"|"GOLD"|"PLATINUM", joinedAt }` — assume it exists; stub it from `sample-data/members.csv` (8 members).
-- **POS**: calls PointHub synchronously at checkout. If PointHub is down, POS completes the sale and queues the earn request for retry — so **earn must be idempotent** (`transactionId` is the idempotency key).
-- **POS refunds**: a refund arrives as its own transaction with `type = REFUND`, its own `transactionId`, an `originalTransactionId`, and negative line amounts. A refund may return **all** lines of the original or only **some** of them. It is idempotent on its own `transactionId` like any other earn call.
+- **Member DB (read-only)**: `GET /members/{memberId}` → `{ memberId, tier: "SILVER"|"GOLD"|"PLATINUM", joinedAt }` — it already exists; stub it from `sample-data/members.csv` (8 members).
+- **Authentication**: an API key per calling system, and a JWT for member-facing endpoints. Assume the API Gateway has already validated both — trust the `x-member-id` / `x-system-id` headers it passes you.
+- **POS**: calls PointHub synchronously at checkout. If PointHub is down the POS completes the sale anyway and queues the earn request for retry — and the POS team say the retry sometimes fires twice.
+- **POS refunds**: a refund arrives as its own transaction with `type = REFUND`, its own `transactionId`, an `originalTransactionId`, and negative line amounts. A refund may return **all** lines of the original or only **some** of them.
 
-## Money and Points — the constraint, not the solution
+## Environment
 
-Three requirements have to hold at the same time, and satisfying all three is a design problem
-this document deliberately does not solve for you:
-
-1. **No floating point** anywhere in money or points arithmetic (see Prohibited, above).
-2. **Marketing runs fractional multipliers.** C3 is x2.5 and they will not drop it.
-3. **A replay of the year must reproduce the same balances, exactly** — Finance and the external
-   auditor both depend on it, and this was an audit finding last year.
-
-The base earn rate, how campaigns combine, where rounding happens and how a refund is reversed
-are **business decisions, not platform standards**. They are not written here on purpose. Ask
-the business, and record what they tell you — `stakeholder-notes.md` has the interviews, and
-in two places the stakeholders contradict each other.
-
-## Non-Functional Expectations
-
-- Earn/burn endpoints: p95 < 150 ms, 50 tx/sec peak
-- Every balance change must be an immutable ledger entry (no UPDATE of balances — derive or maintain with ledger + snapshot)
-- All manual adjustments require `reasonCode` and `agentId`; write to audit log
-- Timezone: Asia/Bangkok for all business dates (expiry month boundaries, day-of-week rules)
+You need Node 20 and a PostgreSQL 15 you can reach. `local-environment/` has a compose file that
+gives you one on your own machine — see `../README.md` §1.2. There is no cloud account, nothing
+to deploy, and no infrastructure to provision: the workshop ends at working, tested code.
 
 ## Data Provided
 
@@ -86,7 +45,6 @@ in two places the stakeholders contradict each other.
 | `sample-data/campaign-examples.md` | The 5 campaigns marketing wants to run, and the questions they raise. The answers are in the stakeholder interviews, not here |
 | `sample-data/expected-points.csv` | **The answer key.** The points your earn API must post for every transaction |
 | `sample-data/check-points.mjs` | Diff your posted points against the answer key. On a mismatch it shows the per-line breakdown so you can see where your calculation diverged |
-| `starter-workspace/` | Node 20 + TypeScript 5.5 toolchain only — Express, `pg`, Jest, ESLint, Prettier, already configured to the standards on this page. No `src/` layout: that is Application Design's job |
 
 Replaying the whole file in order (sales then refunds) must leave these balances — this is the finance-reproducibility check in one line:
 

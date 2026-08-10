@@ -102,14 +102,17 @@ expected output, the reading order, the ground rules and a troubleshooting table
 
 | | Works in | Runs | Ground truth |
 |---|---|---|---|
-| 1 | `starter-workspace/` — Node 20 + TS toolchain, no `src/` layout | `npm run db:up` (local Postgres), `sample-data/check-points.mjs` — answer-key diff | `sample-data/expected-points.csv` — 40 sales + 3 refunds |
-| 2 | `starter-workspace/` — Python 3.12 toolchain, no app layout | `docker compose up -d` (local Postgres), `python mock_verifyme.py` | the mock's scripted outcomes + `GET /_admin/billing` |
+| 1 | the group folder — **no starter project**, Node 20 + Postgres are the only standards | `local-environment/` (Postgres in Docker), `sample-data/check-points.mjs` — answer-key diff | `sample-data/expected-points.csv` — 40 sales + 3 refunds |
+| 2 | the group folder — **no starter project**, Python 3.12 + Postgres are the only standards | `local-environment/` (Postgres in Docker), `python mock_verifyme.py` | the mock's scripted outcomes + `GET /_admin/billing` |
 | 3 | `starter-code/` — the running service | `starter-code/seed_cod.py`, `webhook_receiver.py` | `expected-cod-summary.csv` — 2 settlement days |
 | 4 | `starter-code/` — the running service | `starter-code/seed.py` | `expected-oee-l03.csv`, `expected-oee-all-lines.csv` |
 
-The starter workspaces for groups 1 and 2 hold **toolchain only** — linters, test runners, a
-`docker-compose.yml` that gives them an empty local PostgreSQL, and the prohibitions from their
-technical environment. No application structure: designing that is what the workflow is for.
+Groups 1 and 2 get **no starter project at all** — not even a `package.json`. Their
+`local-environment/` folder holds a compose file that gives them an empty PostgreSQL and nothing
+else. Framework, layout, test runner and database access are decisions their Application Design
+has to produce and defend at a gate, which is the tech half of the room's actual job. Their
+technical environment names three platform standards and two prohibitions, and is otherwise
+deliberately silent.
 
 **Everything runs on the team's own laptop.** No cloud account, no deployment, no infrastructure
 to provision. Groups 1 and 2 need Docker Desktop for their database; groups 3 and 4 use SQLite

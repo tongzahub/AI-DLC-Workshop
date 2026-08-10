@@ -48,8 +48,9 @@ docker pull postgres:15-alpine
 ## Nice to have (saves time if the venue network is busy)
 
 - [ ] A second laptop per team for reading documents while the driver types
-- [ ] `npm install` (Group 1) or `pip download -r requirements.txt` (Groups 2–4) run once at
-      home, so package caches are warm
+- [ ] Groups 3–4: `pip download -r requirements.txt` run once at home, so package caches are
+      warm. Groups 1–2 have no dependency list yet — they choose their own libraries during the
+      workshop, so just make sure `npm` / `pip` can reach the registry from the venue
 - [ ] Groups 1–2: `docker pull postgres:15-alpine` done at home (see above)
 - [ ] A markdown-capable editor (VS Code is fine) for reading `.md` files and answering
       question files

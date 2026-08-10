@@ -2,7 +2,7 @@
 #
 #   docker compose up -d     start it (the first run pulls the image, ~30 s)
 #   docker compose ps        it should say "healthy"
-#   npm run db:ping          prove the app can actually reach it
+#   node check-db.mjs        prove your machine can reach it
 #   docker compose down      stop it, keep the data
 #   docker compose down -v   stop it and throw the data away (start clean)
 #

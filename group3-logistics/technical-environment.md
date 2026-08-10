@@ -2,15 +2,15 @@
 
 > **Brownfield.** The existing stack is the baseline (see `starter-code/`). New code must follow existing patterns unless a pattern is explicitly identified as a defect during Reverse Engineering and the team approves changing it.
 
-## Existing Stack (must be preserved)
+## The existing stack
 
-| Layer | Technology | Notes |
-|---|---|---|
-| Language | Python 3.12 | |
-| API framework | FastAPI + Pydantic v2 | |
-| Database | SQLite via SQLAlchemy Core | fine for workshop; do not migrate to Postgres |
-| Tests | pytest (a few exist — they must keep passing) | |
-| Run | `uvicorn app.main:app` | |
+Whatever `starter-code/` is running on. Nobody here can tell you what that is any more — the
+developer left and the wiki migration ate the documentation. **Reverse Engineering is how you
+find out**, and reviewing what it produces is the first real work of the two days.
+
+What the platform team can tell you is the boundary: **you keep it.** Same language, same
+framework, same database, same test runner. This is a change request, not a rewrite, and the
+budget reflects that.
 
 ## Hard Rules
 
@@ -19,7 +19,7 @@
 - New money fields: **integer satang**, never float. If Reverse Engineering surfaces a pattern in the existing code that violates this, new code must not copy it — discuss remediation scope with the facilitator. The CSV is in whole THB; 560 THB = 56000 satang.
 - Webhook signatures: HMAC-SHA256 over the raw body with the merchant's secret, header `X-Tex-Signature`. The test receiver accepts both `sha256=<hex>` and a bare `<hex>`, and answers 401 on a bad or missing signature.
 - Timezone Asia/Bangkok for the 20:00 COD cutoff. Finance described how their day closes in `change-request.md`; turning that sentence into a rule about timestamps, including what happens at exactly the cutoff, is part of the work.
-- Existing timestamps are stored as **naive UTC strings ending in `Z`** (`datetime.utcnow().isoformat() + "Z"`). Keep writing that same format for new rows — merchants and the rider app both read it.
+- Whatever format the existing code writes timestamps in, keep writing new rows the same way — merchants and the rider app both read them.
 
 ## Prohibited
 

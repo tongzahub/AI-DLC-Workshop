@@ -21,10 +21,10 @@ Install them **into this folder** (the one holding this README). This folder is 
 
 Use the rules version your facilitator names. Do not just grab "latest".
 
-### 1.2 Check your toolchain
+### 1.2 Bring up your environment
 
 ```
-cd starter-workspace
+cd local-environment
 python -m venv .venv
 .venv\Scripts\activate          # macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
@@ -43,8 +43,12 @@ Then start the vendor mock **in a second terminal** and leave it running all day
 python mock_verifyme.py          # http://localhost:9310
 ```
 
-Python 3.12, and **Docker Desktop running**. All five checks must be green and the mock must
-answer.
+Python 3.12, and **Docker Desktop running**. That is the whole environment, plus the mock.
+
+There is no starter project. Python 3.12 and PostgreSQL 15 are the platform standards; the
+framework, the layout, the test runner and how you reach the database are **your team's
+decisions** — in a regulated build they have to be defended at a gate, not inherited from a
+starter kit.
 
 Everything is local: the database is a container on your own machine on localhost:5433, and the
 "vendor" is a mock on localhost:9310. Nothing in this exercise reaches a real service — which is
@@ -59,9 +63,9 @@ the AI-DLC welcome message, and after the first stage an `aidlc-docs/` folder ap
 `aidlc-state.md` and `audit.md` in it. If not, the rules are in the wrong place — call the
 facilitator.
 
-> **Where to open your assistant:** here, at the group folder. Not in `starter-workspace/`.
+> **Where to open your assistant:** here, at the group folder.
 > Everything the workflow needs to answer its own questions — the vision, the technical environment, the stakeholder notes, the vendor contract and `blocklist.csv` — lives at this
-> level. `starter-workspace/` is where the Python project lives — `pytest`, `ruff` and `mypy` run from in there.
+> level, and your project root goes here too. `local-environment/` holds only the database.
 
 ---
 
@@ -84,7 +88,7 @@ Then let the workflow lead.
 | 1 | `Group2-Project-Brief.docx` | Your mission, the shape of the two days, the ground rules |
 | 2 | `Group2-Business-Project-Memo.docx` | Why the business is doing this, and what compliance failure costs today |
 | 3 | `vision-document.md` | Scope, the 0.95 / 0.80 decision thresholds, PDPA obligations |
-| 4 | `technical-environment.md` | Stack, crypto requirements, the role model, prohibited practices |
+| 4 | `technical-environment.md` | The few platform standards you cannot change, the crypto requirement and the role model. Short on purpose — **everything not in it is your decision** |
 | 5 | `stakeholder-notes.md` | Compliance, Operations, Vendor Manager, mobile squad, Finance. **Two real contradictions — and one instruction you must not follow** |
 | 6 | `verifyme-api-contract.md` | The vendor API, and how the mock's behaviour is driven by the last digit of your reference |
 | 7 | `consent-text-v1.md` | The versioned consent text and what must be recorded per consent |

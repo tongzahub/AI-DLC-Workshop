@@ -1,0 +1,4 @@
+merchantId,name,contactEmail,callbackUrl,secret,active
+M-100,Siam Shop Online,integrations@siamshop.example,http://localhost:9410/webhooks/parceltrack,whsec_m100_7d3f9a,true
+M-113,BaanDee Marketplace,dev@baandee.example,http://localhost:9411/webhooks/parceltrack,whsec_m113_2b8c41,true
+M-121,ThaiGadget Direct,api@thaigadget.example,http://localhost:9412/webhooks/parceltrack,whsec_m121_5e6a02,true

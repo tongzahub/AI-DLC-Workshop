@@ -1,0 +1,15 @@
+# Normalise text, and keep Office files out of the diff machinery.
+* text=auto eol=lf
+
+*.docx  binary
+*.pptx  binary
+*.png   binary
+*.b64.txt -text
+
+# The answer keys and seeded data are generated. If you see a diff here that you
+# did not produce with the facilitator repo's tools/, something has drifted - re-run
+# its verify_kit.py before you commit.
+group1-retail/sample-data/expected-points*.csv    linguist-generated
+group3-logistics/expected-cod-summary.csv         linguist-generated
+group4-manufacturing/expected-oee-*.csv           linguist-generated
+group4-manufacturing/sample-readings.jsonl        linguist-generated

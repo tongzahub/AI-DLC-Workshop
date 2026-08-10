@@ -1,0 +1,9 @@
+settlementDate,riderId,parcels,expectedTHB,recordedTHB,varianceTHB,missingCollections,flagged,reason
+2026-09-15,R-005,8,6090,6090,0,0,NO,
+2026-09-15,R-009,6,3254,3254,0,0,NO,
+2026-09-15,R-017,5,1829,1709,-120,0,YES,variance -120 THB exceeds 50
+2026-09-15,R-023,4,2855,1655,-1200,1,YES,1 collection(s) not recorded; variance -1200 THB exceeds 50
+2026-09-15,R-031,5,3260,3260,0,0,NO,
+2026-09-16,R-017,1,199,199,0,0,NO,
+2026-09-16,R-023,1,640,640,0,0,NO,
+2026-09-16,R-031,1,875,875,0,0,NO,

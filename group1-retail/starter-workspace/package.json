@@ -1,0 +1,35 @@
+{
+  "name": "pointhub",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PointHub — loyalty points & rewards service (Siam MegaMart)",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch",
+    "lint": "eslint . --ext .ts --no-error-on-unmatched-pattern",
+    "format": "prettier --write \"**/*.{ts,json,md}\""
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.14.10",
+    "@types/pg": "^8.11.6",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.3.2",
+    "ts-jest": "^29.2.2",
+    "typescript": "^5.5.3"
+  }
+}

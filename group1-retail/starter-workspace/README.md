@@ -15,10 +15,16 @@ npm install           # ~470 packages, about 30 s
 npm run typecheck     # silent = clean
 npm test              # 1 suite, 3 tests passed  (the toolchain smoke test)
 npm run lint          # silent = clean
+
+npm run db:up         # starts PostgreSQL 15 in Docker (first run pulls, ~30 s)
+npm run db:ping       # "database is up."
 ```
 
-All four must be green before you paste the trigger phrase. If any of them is not, call the
+All six must be green before you paste the trigger phrase. If any of them is not, call the
 facilitator now rather than at 14:00.
+
+Docker Desktop has to be running for the last two. Everything is local — the image is pulled
+once and nothing talks to a cloud after that.
 
 `__tests__/toolchain.test.ts` asserts nothing about PointHub — it only proves Node, strict
 TypeScript and Jest are working. Delete it or keep it, whichever you prefer.
@@ -38,9 +44,14 @@ See `../README.md` for the full start-up sequence.
 | Node | 20.x (`engines` pins it — `npm install` warns if you are on 18 or 22) |
 | TypeScript | 5.5, `strict` **plus** `noUncheckedIndexedAccess` and `exactOptionalPropertyTypes` |
 | API framework | Express 4 |
+| Database | PostgreSQL 15 in Docker, on localhost:5432. `docker-compose.yml` is here |
 | Database driver | `pg` (node-postgres) — no ORM, raw SQL with typed helpers |
+| Connection string | `DATABASE_URL`, defaulting to `postgres://pointhub:pointhub@localhost:5432/pointhub` |
 | Tests | Jest 29 + ts-jest, tests in `__tests__/`, files named `*.test.ts` |
 | Lint / format | ESLint + Prettier, `npm run lint`, `npm run format` |
+
+Database commands: `npm run db:up` · `npm run db:ping` · `npm run db:down`
+(`docker compose down -v` if you want to wipe the data and start clean).
 
 Two lint rules exist to catch the prohibitions in the technical environment before a
 reviewer has to:
@@ -55,6 +66,8 @@ at the gate and record — not a rule to switch off quietly.
 ## What is NOT here, on purpose
 
 - No `src/` layout, no module boundaries, no example service — Application Design decides
-- No database schema or migrations — that comes out of the design too
-- No Docker, no IaC — out of scope for the workshop (`technical-environment.md`)
+- No database schema or migrations — an empty database is running; what goes in it comes out
+  of the design
+- No Dockerfile for the service itself, no IaC, no deployment — everything runs from your own
+  machine and stops when you close the laptop
 - No member-DB stub — build it from `../sample-data/members.csv` when the design calls for it

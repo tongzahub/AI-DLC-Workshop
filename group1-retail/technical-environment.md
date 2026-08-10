@@ -9,9 +9,9 @@
 | Language | TypeScript | 5.x | Strict mode |
 | Runtime | Node.js | 20.x LTS | |
 | API framework | Express | 4.x | Company standard for all services |
-| Database | PostgreSQL | 15 | No ORM — raw SQL with typed query helpers |
-| Cache | Redis | 7 | For balance reads if needed (optional, justify) |
-| Infrastructure | AWS ECS Fargate + RDS | — | Assume containers; IaC not required in workshop |
+| Database | PostgreSQL | 15 | Runs locally from `starter-workspace/docker-compose.yml`. No ORM — raw SQL with typed query helpers |
+| Cache | Redis | 7 | For balance reads if needed (optional, justify). Not provided — add a service to the compose file if your design earns it |
+| Deployment | out of scope | — | Everything runs on your own machine. No cloud account, no containers to build, no IaC |
 | Auth | API key per calling system + JWT for member-facing endpoints | — | Assume validated upstream at API Gateway; trust `x-member-id` / `x-system-id` headers |
 | Tests | Jest | 29.x | ts-jest, tests in `__tests__/` |
 | Lint | ESLint + Prettier | — | |
@@ -24,7 +24,30 @@
 | Axios | Node 20 has fetch | native fetch |
 | Vitest / Mocha | Standard is Jest | Jest |
 | Floating-point money/points math | Audit reproducibility | integer satang / integer points, explicit rounding functions |
-| Cron inside the API process | Ops standard | separate job entrypoint (can be a script triggered by EventBridge; in workshop a CLI script is fine) |
+| Cron inside the API process | Ops standard | a separate job entrypoint the scheduler calls — in the workshop a CLI script you can run by hand is exactly right |
+
+## Running Locally
+
+Everything runs on the team's own laptop. The only moving part beyond Node is PostgreSQL,
+which comes up from the compose file shipped in `starter-workspace/`:
+
+```
+cd starter-workspace
+docker compose up -d      # or: npm run db:up
+npm run db:ping           # must print "database is up."
+```
+
+| | |
+|---|---|
+| Connection | `postgres://pointhub:pointhub@localhost:5432/pointhub` |
+| Override with | `DATABASE_URL` — read it from the environment, never hard-code it |
+| Port already in use? | change the left-hand number in `docker-compose.yml` and set `DATABASE_URL` to match |
+| Start clean | `docker compose down -v` throws the data away |
+
+The database is left in **UTC on purpose.** Business dates here are Asia/Bangkok — expiry month
+boundaries and day-of-week campaign rules — and converting them is the application's job. A
+database that silently thinks in Bangkok time would hide that decision instead of forcing you
+to make it.
 
 ## Integration Contracts (mock these in the workshop)
 

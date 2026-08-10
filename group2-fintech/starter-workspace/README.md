@@ -14,10 +14,16 @@ pip install -r requirements.txt
 python -m pytest                 # 3 passed  (the toolchain smoke test)
 ruff check .                     # All checks passed!
 mypy .                           # Success: no issues found
+
+docker compose up -d             # PostgreSQL 15 (first run pulls the image, ~30 s)
+python scripts/db_ping.py        # "database is up."
 ```
 
-All three must be green before you paste the trigger phrase. If any of them is not, call the
+All five must be green before you paste the trigger phrase. If any of them is not, call the
 facilitator now rather than at 14:00.
+
+Docker Desktop has to be running for the last two. Everything is local — the image is pulled
+once and nothing talks to a cloud after that.
 
 `tests/test_toolchain.py` asserts nothing about SwiftKYC — it only proves Python 3.12, the
 libraries, and AES-256-GCM are all working. Note that it is annotated `-> None`: `mypy` runs
@@ -45,10 +51,15 @@ See `../README.md` for the full start-up sequence.
 |---|---|
 | Python | 3.12 |
 | API framework | FastAPI + Pydantic v2 |
-| Database | SQLAlchemy Core or psycopg — no lazy-loading ORM models |
+| Database | PostgreSQL 15 in Docker, on localhost:**5433**. `docker-compose.yml` is here |
+| Database access | SQLAlchemy Core or psycopg — no lazy-loading ORM models |
+| Connection string | `DATABASE_URL`, defaulting to `postgresql://swiftkyc:swiftkyc@localhost:5433/swiftkyc` |
 | Crypto | `cryptography` (AES-256-GCM, key from env) — never home-made |
 | Tests | pytest + httpx TestClient, tests in `tests/` |
 | Lint / types | `ruff check .` and `mypy .`, both configured strict |
+
+Database commands: `docker compose up -d` · `python scripts/db_ping.py` · `docker compose down`
+(`docker compose down -v` wipes the data and starts clean).
 
 `ruff` is set up with the **flake8-bandit (`S`) rules enabled**. Once you opt in to the
 Security extension those stop being style nits and become gate findings — hardcoded
@@ -63,7 +74,10 @@ as `Any` — making the types explicit at that boundary is the point.
 - No application layout or state machine — Application Design decides both
 - No `secure-store/` and no encryption key — creating one is part of the security design;
   the key comes from an environment variable, never from a file in the repo
-- No database schema or migrations
+- No database schema or migrations — an empty database is running; what goes in it comes out
+  of the design
+- No Dockerfile for the service itself, no deployment — the compose file exists only to give
+  you a database on your own machine
 - No consent, blocklist or webhook code — those are the exercise
 
 ## The one thing to get right before you write any code

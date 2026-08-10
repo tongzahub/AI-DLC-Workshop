@@ -29,10 +29,17 @@ npm install           # ~470 packages, about 30 s
 npm run typecheck     # silent = clean
 npm test              # 1 suite, 3 tests passed
 npm run lint          # silent = clean
+
+npm run db:up         # PostgreSQL 15 in Docker (first run pulls the image, ~30 s)
+npm run db:ping       # "database is up."
 cd ..
 ```
 
-Node 20 or newer. All four commands must be green.
+Node 20 or newer, and **Docker Desktop running**. All six commands must be green.
+
+Everything is local: the database lives in a container on your own machine, listening on
+localhost:5432 only. Nothing here needs a cloud account. `npm run db:down` stops it;
+`docker compose down -v` also throws the data away if you want to start clean.
 
 If any of that is not green, call the facilitator **now**, not at 14:00.
 

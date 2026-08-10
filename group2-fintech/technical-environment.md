@@ -6,9 +6,10 @@
 |---|---|---|---|
 | Language | Python | 3.12 | type hints required, mypy-clean |
 | API framework | FastAPI | 0.11x | with Pydantic v2 models |
-| Database | PostgreSQL | 15 | via SQLAlchemy Core or psycopg (no full ORM models with lazy loading) |
+| Database | PostgreSQL | 15 | Runs locally from `starter-workspace/docker-compose.yml`. Use SQLAlchemy Core or psycopg (no full ORM models with lazy loading) |
 | Async jobs | none in MVP | — | webhook-driven; a simple retry poller script is acceptable |
-| File storage | local `./secure-store/` in workshop | — | production would be S3 + KMS; in workshop use AES-256 (cryptography lib) with key from env var |
+| File storage | local `./secure-store/` | — | a folder on your own disk, encrypted with AES-256-GCM (`cryptography` lib), key from an env var. It is git-ignored — never commit it |
+| Deployment | out of scope | — | Everything runs on your own machine. No cloud account, no object storage, no managed key service |
 | Auth | OAuth2 client-credentials between systems; role claims in JWT | — | assume gateway-validated; trust `x-client-id`, `x-role` headers |
 | Tests | pytest | 8.x | plus httpx TestClient |
 | Lint | ruff + mypy | — | |
@@ -22,6 +23,32 @@
 | Calling VerifyMe synchronously and blocking the request | vendor is slow (2–20 s) | submit + webhook (mock provides both) |
 | Django | company standard is FastAPI | FastAPI |
 | Home-made crypto | obvious | `cryptography` library |
+
+## Running Locally
+
+Everything runs on the team's own laptop. The only moving part beyond Python is PostgreSQL,
+which comes up from the compose file shipped in `starter-workspace/`:
+
+```
+cd starter-workspace
+docker compose up -d              # first run pulls the image, ~30 s
+python scripts/db_ping.py         # must print "database is up."
+```
+
+| | |
+|---|---|
+| Connection | `postgresql://swiftkyc:swiftkyc@localhost:5433/swiftkyc` |
+| Override with | `DATABASE_URL` — read it from the environment, never hard-code it |
+| Port | 5433, so it does not collide with a Postgres you may already run |
+| Start clean | `docker compose down -v` throws the data away |
+
+The database is left in **UTC on purpose** — expiry business dates are Asia/Bangkok and
+converting them is the application's job.
+
+**Two things the security extension will ask you about, and the answer is the same for both:**
+the encryption key and the database password are configuration, not code. The key comes from an
+environment variable and the compose file's password is a local development value. Neither
+belongs in the repository, and `secure-store/`, `.env` and `*.key` are already git-ignored.
 
 ## Security Extension Note
 

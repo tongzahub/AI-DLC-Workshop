@@ -31,6 +31,9 @@ pip install -r requirements.txt
 python -m pytest                 # 3 passed
 ruff check .                     # All checks passed!
 mypy .                           # Success: no issues found
+
+docker compose up -d             # PostgreSQL 15 (first run pulls the image, ~30 s)
+python scripts/db_ping.py        # "database is up."
 cd ..
 ```
 
@@ -40,7 +43,12 @@ Then start the vendor mock **in a second terminal** and leave it running all day
 python mock_verifyme.py          # http://localhost:9310
 ```
 
-Python 3.12. All three checks must be green and the mock must answer.
+Python 3.12, and **Docker Desktop running**. All five checks must be green and the mock must
+answer.
+
+Everything is local: the database is a container on your own machine on localhost:5433, and the
+"vendor" is a mock on localhost:9310. Nothing in this exercise reaches a real service — which is
+the point, because the real one bills per call.
 
 If any of that is not green, call the facilitator **now**, not at 14:00.
 

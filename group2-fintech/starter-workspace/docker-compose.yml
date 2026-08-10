@@ -1,0 +1,38 @@
+# SwiftKYC — the workshop database, on your own machine.
+#
+#   docker compose up -d      start it (the first run pulls the image, ~30 s)
+#   docker compose ps         it should say "healthy"
+#   python scripts/db_ping.py prove the app can actually reach it
+#   docker compose down       stop it, keep the data
+#   docker compose down -v    stop it and throw the data away (start clean)
+#
+# Nothing here talks to the internet after the image is pulled, and nothing runs
+# in a cloud. The port is published to localhost only.
+#
+# Port 5433, not 5432, so this does not collide with a Postgres you may already
+# run — or with another group's database if you are testing several at once.
+# If you change it, set DATABASE_URL to match.
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: swiftkyc-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: swiftkyc
+      POSTGRES_PASSWORD: swiftkyc
+      POSTGRES_DB: swiftkyc
+      # Deliberately left in UTC. Expiry business dates are Asia/Bangkok and
+      # converting them is the application's job — see technical-environment.md.
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - swiftkyc-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U swiftkyc -d swiftkyc"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  swiftkyc-data:

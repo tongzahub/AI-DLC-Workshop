@@ -8,6 +8,9 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "db:up": "docker compose up -d",
+    "db:ping": "node scripts/db-ping.mjs",
+    "db:down": "docker compose down",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",

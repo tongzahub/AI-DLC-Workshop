@@ -84,8 +84,8 @@ expected output, the reading order, the ground rules and a troubleshooting table
 
 | | System | Engagement | Path it exercises | Extension | Stack |
 |---|---|---|---|---|---|
-| **1** | PointHub | Greenfield service | Full Inception → 2–3 units | declines all — *on record* | TypeScript 5.5 / Node 20 / Express / Postgres |
-| **2** | SwiftKYC | Greenfield, regulated | Full path, security NFRs dominate design | **Security** OPT-IN | Python 3.12 / FastAPI / Postgres |
+| **1** | PointHub | Greenfield service | Full Inception → 2–3 units | declines all — *on record* | TypeScript 5.5 / Node 20 / Express / Postgres *(local, Docker)* |
+| **2** | SwiftKYC | Greenfield, regulated | Full path, security NFRs dominate design | **Security** OPT-IN | Python 3.12 / FastAPI / Postgres *(local, Docker)* |
 | **3** | ParcelTrack | Brownfield CR | Reverse Engineering → targeted stages, zero breaking changes | none | Python 3.12 / FastAPI / SQLite *(provided, running)* |
 | **4** | LineMetrics | Brownfield bug fix | Minimal path — most stages SKIP | **PBT** OPT-IN | Python 3.12 / FastAPI / SQLite *(provided, with seeded bugs)* |
 
@@ -93,14 +93,18 @@ expected output, the reading order, the ground rules and a troubleshooting table
 
 | | Works in | Runs | Ground truth |
 |---|---|---|---|
-| 1 | `starter-workspace/` — Node 20 + TS toolchain, no `src/` layout | `sample-data/check-points.mjs` — answer-key diff | `sample-data/expected-points.csv` — 40 sales + 3 refunds |
-| 2 | `starter-workspace/` — Python 3.12 toolchain, no app layout | `python mock_verifyme.py` | the mock's scripted outcomes + `GET /_admin/billing` |
+| 1 | `starter-workspace/` — Node 20 + TS toolchain, no `src/` layout | `npm run db:up` (local Postgres), `sample-data/check-points.mjs` — answer-key diff | `sample-data/expected-points.csv` — 40 sales + 3 refunds |
+| 2 | `starter-workspace/` — Python 3.12 toolchain, no app layout | `docker compose up -d` (local Postgres), `python mock_verifyme.py` | the mock's scripted outcomes + `GET /_admin/billing` |
 | 3 | `starter-code/` — the running service | `starter-code/seed_cod.py`, `webhook_receiver.py` | `expected-cod-summary.csv` — 2 settlement days |
 | 4 | `starter-code/` — the running service | `starter-code/seed.py` | `expected-oee-l03.csv`, `expected-oee-all-lines.csv` |
 
-The starter workspaces for groups 1 and 2 hold **toolchain only** — linters, test runners and
-the prohibitions from their technical environment, but no application structure. Designing that
-is what the workflow is for.
+The starter workspaces for groups 1 and 2 hold **toolchain only** — linters, test runners, a
+`docker-compose.yml` that gives them an empty local PostgreSQL, and the prohibitions from their
+technical environment. No application structure: designing that is what the workflow is for.
+
+**Everything runs on the team's own laptop.** No cloud account, no deployment, no infrastructure
+to provision. Groups 1 and 2 need Docker Desktop for their database; groups 3 and 4 use SQLite
+and need nothing beyond Python.
 
 The answer keys are participant material on purpose: the exercise is building software that
 reproduces a known-correct number, not guessing what the number should be. Every value in them

@@ -1,171 +1,129 @@
 # AI-DLC V1 Workshop Kit
 
-A two-day, four-team workshop for running [AI-DLC](https://github.com/awslabs/aidlc-workflows)
-— the AI-Driven Development Life Cycle — on realistic engagements.
+A two-day workshop for running [AI-DLC](https://github.com/awslabs/aidlc-workflows) — the
+AI-Driven Development Life Cycle — with four teams working four different kinds of engagement
+at the same time.
 
-Each team takes a different kind of work from business intent to tested, documented software:
-one greenfield service, one greenfield regulated build, one brownfield change request, one
-brownfield bug fix. Same methodology, four deliberately different shapes.
+Everything a team needs is in its own folder: the business documents, the seeded data, and an
+answer key their software has to reproduce. Everything runs on their own laptop.
 
 > Built and verified against AI-DLC Workflows **v1.0.1**.
 
-## What the two days are designed to demonstrate
+## The four groups
 
-**1 · The workflow adapts to the work.** Nobody configures the difference. Four teams run the
-same rules and produce four different execution plans, because Workflow Planning proposes a
-path from the shape of the problem and the team defends or changes it at a gate. Day 2 puts
-all four plans side by side; that comparison is the point of the workshop.
+| | System | Engagement | What it exercises | Extension | Runs on |
+|---|---|---|---|---|---|
+| **1** | **PointHub** · retail loyalty points | Greenfield | The full path — richest Inception, 2–3 units of work | declines all, *on record* | Node 20 + Postgres in Docker |
+| **2** | **SwiftKYC** · consumer-lending e-KYC | Greenfield, regulated | The full path with security as a blocking gate check | **Security** | Python 3.12 + Postgres in Docker |
+| **3** | **ParcelTrack** · parcel tracking, COD & webhooks | Brownfield change request | Reverse Engineering first, then a lean plan, zero breaking changes | none | Python 3.12 + the running service provided |
+| **4** | **LineMetrics** · plant OEE service | Brownfield bug fix | Most stages **skipped** — pushing back on an over-sized plan is the exercise | **PBT** | Python 3.12 + the running service provided |
 
-**2 · Every behaviour traces back to a sentence someone said.** The kit is built around
-eighteen closed loops. Each one runs like this:
+The point of running all four at once: nobody configures the difference. Same rules, four
+execution plans, because Workflow Planning proposes a path from the shape of the problem. Day 2
+puts the four plans side by side.
+
+### What each group is measured against
+
+| | Answer key | Checked with |
+|---|---|---|
+| 1 | `sample-data/expected-points.csv` — 40 sales + 3 refunds | `node sample-data/check-points.mjs your-output.csv` |
+| 2 | the vendor mock's scripted outcomes | `GET localhost:9310/_admin/billing` |
+| 3 | `expected-cod-summary.csv` — two settlement days | `GET /cod/summary?date=` |
+| 4 | `expected-oee-l03.csv`, `expected-oee-all-lines.csv` | `GET /oee/{line}?date=` |
+
+The answer keys ship **with** the teams on purpose. Building software that reproduces a
+known-correct number is the exercise; guessing what the number should be is not.
+
+## Using it
+
+**As a participant** — read your group's `README.md`. One file gets you from an empty machine to
+a running workflow: the trigger phrase, the setup commands with their expected output, what to
+read in what order, and a troubleshooting table.
+
+**As a facilitator** — hand each team **only its own group folder**, plus
+`Participant-Setup-Guide.docx`, `AI-DLC-Cheat-Sheet.md` and `Workshop-Agenda.md`. Send
+`Pre-Workshop-Checklist.md` two or three days ahead. Teams run `git init` **inside their group
+folder**; they do not clone this repo, because committing `aidlc-docs/` is one of their
+deliverables and belongs in their own history.
+
+Everything needed to *run* the two days — the pre-flight, the in-room checkpoints, the answer
+sheet, the rubric, the opening deck and the client report — is in a separate **private**
+repository, `AIDLC-Workshop-Facilitator`. It holds the material that would spoil the exercise,
+so nothing from it should ever reach a participant.
+
+Groups 1 and 2 need **Docker Desktop** for their database. Groups 3 and 4 need nothing beyond
+Python. No cloud account, no deployment, no infrastructure.
+
+## What is deliberately missing
+
+**Groups 1 and 2 get no starter project** — not even a `package.json`. Their
+`local-environment/` folder holds a compose file that gives them an empty PostgreSQL, and
+nothing else. Framework, project layout, test runner and database access are decisions their
+Application Design has to produce and defend at a gate — which is what the tech half of the room
+is there to do. Their technical environment names three platform standards and two prohibitions,
+and is otherwise silent.
+
+**No document settles a business rule.** How campaigns combine, where rounding happens, what a
+refund reverses, when a settlement day starts — none of it is written down as fact anywhere. The
+answers live in stakeholder interviews, incident tickets and change requests, in the words of
+people who sometimes contradict each other and once ask for something the team should refuse.
+
+That is what makes the second half of Day 2 work. A team picks one number its software
+produces and walks it backwards, out loud:
 
 ```
-someone said something in a meeting
-  └─ the AI asked a question the documents could not answer
-      └─ the team typed an answer into a file, and recorded why
-          └─ that became a requirement, a design, and code
-              └─ and it shows up as one specific number you can point at
+a number you can point at
+  └─ the test that would fail if the decision flipped
+      └─ the design, the requirement, the recorded decision
+          └─ the answer someone typed into a question file
+              └─ the sentence a stakeholder actually said
 ```
 
-An illustration — deliberately not one of the eighteen: *"we invoice in whole baht, never
-satang"* → a decision recorded at a gate → invoice 1042 totals **1,240**, not 1,239.60 → and a
-test that fails the day someone quietly reintroduces the rounding.
-
-**What the eighteen actually are is not written anywhere a team can read.** Finding them is the
-exercise: the answers live in stakeholder interviews, incident tickets and change requests — in
-the words of people who sometimes contradict each other, and once ask for something the team
-should refuse. The technical documents deliberately do not settle any of it.
-
-Teams reconstruct their own chains in `traceability-worksheet.md` and walk one of them,
-backwards, in their demo. That worksheet — not a score — is what they take home.
-
-## This is the participant half of a two-repository kit
-
-Everything here is safe for participants to read. The material that would spoil the exercise —
-the seeded defects, the model answers, the traceability answer sheet, the rubric and the
-facilitator's own deck — lives in a **separate private repository**, `AIDLC-Workshop-Facilitator`.
-
-If you are facilitating, clone the two side by side:
-
-```
-your-workspace/
-  AIDLC-Workshop-Kit/          <- this repo
-  AIDLC-Workshop-Facilitator/  <- private; its checks expect the kit as a sibling
-```
-
-Participants get **only their own group folder** plus `Participant-Setup-Guide.docx`,
-`AI-DLC-Cheat-Sheet.md` and `Workshop-Agenda.md`, by USB or zip — and
-`Pre-Workshop-Checklist.md` by email, 2-3 days earlier. They run `git init` **inside their group folder** — they do not clone this repo, because
-committing `aidlc-docs/` is one of their deliverables and belongs in their own history.
-
-Nothing in this repository reveals the answers to another group's exercise. The answer-key CSVs
-are deliberately included: reproducing a known-correct number is the exercise, and guessing what
-the number should be is not.
+There are eighteen of those chains in the kit. What they are is not written anywhere a team can
+read — finding them is the exercise. Teams reconstruct their own in
+`traceability-worksheet.md`, and that worksheet, not a score, is what they take home.
 
 ## Everything here is fabricated
 
-Every company, person, quotation, transaction, incident ticket, ID number and blocklist entry
-is invented for teaching. Siam MegaMart, Metro Finance, Thunder Express and Apex Auto Parts do
-not exist. The Thai national ID numbers are correctly formatted 13-digit values but **every one
-of them deliberately fails the national-ID check digit**, so none can belong to a real person;
+Every company, person, quotation, transaction, incident ticket, ID number and blocklist entry is
+invented for teaching. Siam MegaMart, Metro Finance, Thunder Express and Apex Auto Parts do not
+exist. The Thai national ID numbers are correctly formatted 13-digit values, but **every one of
+them deliberately fails the national-ID check digit**, so none can belong to a real person, and
 `blocklist.csv` is not derived from any real sanctions list. The API keys and webhook secrets
 (`demo-key-123`, `demo-secret`, `whsec_*`) belong to mock servers that only listen on localhost.
 
 ## Layout
 
 ```
-Participant-Setup-Guide.docx   how to install the rules, drive the workflow, what is expected
-AI-DLC-Cheat-Sheet.md          the one-page map of stages, gates and extensions
-Workshop-Agenda.md             the two-day timetable and the four checkpoints
-Pre-Workshop-Checklist.md      send to every team 2-3 days before Day 1
+Participant-Setup-Guide.docx   installing the rules, driving the workflow, what is expected
+AI-DLC-Cheat-Sheet.md          one-page map of stages, gates and extensions
+Workshop-Agenda.md             the two-day timetable
+Pre-Workshop-Checklist.md      goes out 2–3 days before Day 1
 
-group1-retail/          PointHub    · retail loyalty points        · greenfield
-group2-fintech/         SwiftKYC    · consumer-lending e-KYC       · greenfield, regulated
-group3-logistics/       ParcelTrack · parcel tracking COD/webhooks · brownfield change request
-group4-manufacturing/   LineMetrics · plant OEE service            · brownfield bug fix
+group1-retail/          PointHub      greenfield
+group2-fintech/         SwiftKYC      greenfield, regulated
+group3-logistics/       ParcelTrack   brownfield change request
+group4-manufacturing/   LineMetrics   brownfield bug fix
 ```
 
-Every group folder starts with its own `README.md` — a team can read that one file and be
-running AI-DLC in half an hour. It carries the trigger phrase, the toolchain checks with their
-expected output, the reading order, the ground rules and a troubleshooting table.
-
-## The four groups
-
-| | System | Engagement | Path it exercises | Extension | Stack |
-|---|---|---|---|---|---|
-| **1** | PointHub | Greenfield service | Full Inception → 2–3 units | declines all — *on record* | TypeScript 5.5 / Node 20 / Express / Postgres *(local, Docker)* |
-| **2** | SwiftKYC | Greenfield, regulated | Full path, security NFRs dominate design | **Security** OPT-IN | Python 3.12 / FastAPI / Postgres *(local, Docker)* |
-| **3** | ParcelTrack | Brownfield CR | Reverse Engineering → targeted stages, zero breaking changes | none | Python 3.12 / FastAPI / SQLite *(provided, running)* |
-| **4** | LineMetrics | Brownfield bug fix | Minimal path — most stages SKIP | **PBT** OPT-IN | Python 3.12 / FastAPI / SQLite *(provided, with seeded bugs)* |
-
-### What each group works in, runs, and is measured against
-
-| | Works in | Runs | Ground truth |
-|---|---|---|---|
-| 1 | the group folder — **no starter project**, Node 20 + Postgres are the only standards | `local-environment/` (Postgres in Docker), `sample-data/check-points.mjs` — answer-key diff | `sample-data/expected-points.csv` — 40 sales + 3 refunds |
-| 2 | the group folder — **no starter project**, Python 3.12 + Postgres are the only standards | `local-environment/` (Postgres in Docker), `python mock_verifyme.py` | the mock's scripted outcomes + `GET /_admin/billing` |
-| 3 | `starter-code/` — the running service | `starter-code/seed_cod.py`, `webhook_receiver.py` | `expected-cod-summary.csv` — 2 settlement days |
-| 4 | `starter-code/` — the running service | `starter-code/seed.py` | `expected-oee-l03.csv`, `expected-oee-all-lines.csv` |
-
-Groups 1 and 2 get **no starter project at all** — not even a `package.json`. Their
-`local-environment/` folder holds a compose file that gives them an empty PostgreSQL and nothing
-else. Framework, layout, test runner and database access are decisions their Application Design
-has to produce and defend at a gate, which is the tech half of the room's actual job. Their
-technical environment names three platform standards and two prohibitions, and is otherwise
-deliberately silent.
-
-**Everything runs on the team's own laptop.** No cloud account, no deployment, no infrastructure
-to provision. Groups 1 and 2 need Docker Desktop for their database; groups 3 and 4 use SQLite
-and need nothing beyond Python.
-
-The answer keys are participant material on purpose: the exercise is building software that
-reproduces a known-correct number, not guessing what the number should be. Every value in them
-has been recomputed against the shipped data and reproduced against the shipped code.
-
-Each group folder also carries `team-log.md` (decision log, gate record, retro) and
+Each group folder also carries `team-log.md` (decisions, gates, retro) and
 `traceability-worksheet.md`.
 
-## Facilitating
+## Changing the kit
 
-Everything you need to run the two days is in the private `AIDLC-Workshop-Facilitator`
-repository — the day-before pre-flight, the four in-room checkpoints, the answer sheet, the
-rubric, the opening deck and the client report template. Start with its README.
-
-The one thing to know here: **pin the rules version.** Re-check the newest release of
-`awslabs/aidlc-workflows` and make sure `Participant-Setup-Guide.docx` agrees with what you hand
-out. If stage names have moved, the workshop checkpoints will not line up.
-
-## Maintaining the kit
-
-Five files are **generated and coupled to an answer key**:
+Three files are generated, and each one is coupled to an answer key:
 
 ```
-group1-retail/sample-data/transactions.csv     ─→ expected-points.csv, expected-points-by-line.csv (read by check-points.mjs)
-group3-logistics/sample-cod-day.csv            ─→ expected-cod-summary.csv
-group4-manufacturing/sample-readings.jsonl     ─→ expected-oee-l03.csv, expected-oee-all-lines.csv
+group1-retail/sample-data/transactions.csv   ─→ expected-points.csv (+ the per-line breakdown)
+group3-logistics/sample-cod-day.csv          ─→ expected-cod-summary.csv
+group4-manufacturing/sample-readings.jsonl   ─→ expected-oee-*.csv
 ```
 
-Editing the left-hand side by hand silently invalidates the right-hand side, and nobody finds
-out until a team argues about a number on Day 2. After **any** change to this data, run the
-verifier in the facilitator repository:
+Hand-editing the left-hand side silently invalidates the right, and nobody notices until a team
+argues about a number on Day 2. Regenerate, then run `tools/verify_kit.py` from the facilitator
+repository — it recomputes every answer key from source, re-checks the mock's identities and the
+ID check digits, and exits non-zero on drift.
 
-```
-cd ../AIDLC-Workshop-Facilitator
-python tools/verify_kit.py
-```
-
-It recomputes every answer key from the source data, checks the mock's identities against the
-blocklist, confirms every Thai ID still fails the national-ID check digit, and reports anything
-that references a missing file.
-
-Changing a business rule (a campaign, a cutoff, a formula) means changing the data, the
-technical environment document, the stakeholder note it came from, **and** the corresponding row
-in the facilitator repo's `Traceability-Map.md`. Each loop only teaches something while all four
-agree.
-
-## Status
-
-Last full verification: all answer keys recomputed from source data with 0 mismatches; every
-observable quoted in the traceability map matched against the shipped files; both brownfield
-services and both starter toolchains installed and run clean; the three seeded Group 4 incidents
-and all three Group 2 blocklist paths reproduced live.
+Changing a business rule means changing four things together: the data, the technical
+environment, the stakeholder note or ticket it came from, and the matching row in the
+facilitator repo's traceability map. Each chain only teaches something while all four agree.

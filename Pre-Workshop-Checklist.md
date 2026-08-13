@@ -59,6 +59,11 @@ docker pull postgres:15-alpine
 
 - Do **not** download the AI-DLC rules bundle yet — the facilitator names the exact version
   on the morning (and carries it on USB as a fallback)
+- If you go looking anyway, take the bundle from **`awslabs/aidlc-workflows`** and nothing else.
+  There is a similarly named `aws-samples/sample-aidlc-decisions-driven-skill` — an independent
+  implementation with different stage names, different gates and a `/aidlc` slash command. It is
+  interesting, and it is **not** what this workshop runs on. Installing it instead will make
+  every checkpoint of the two days fail to line up
 - Do **not** read ahead in another group's folder — each group's exercise only works unspoiled
 
 ## On the morning, before 09:00

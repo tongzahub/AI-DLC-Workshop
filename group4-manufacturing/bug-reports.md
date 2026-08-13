@@ -42,6 +42,11 @@ Reported by: Shift Supervisor, lines L-01 and L-07
 
 ---
 
+All three of these were reported by someone looking at **the OEE dashboard**, not at an API
+response. That page is not in this repository — it was never in version control, and the
+developer who wrote it left. Rebuilding it is part of closing INC-1042, whose actual complaint
+is that one line with no data took down the whole page.
+
 Facilitator note to teams: reproduce each incident with a failing test first.
 `sample-readings.jsonl` contains a gateway retry burst (L-01, L-07) and readings that cross the UTC midnight boundary on all three L-03 days.
 `expected-oee-l03.csv` is the ground truth for L-03 after all fixes; `expected-oee-all-lines.csv` also covers L-01 (proves the de-duplication is numerically correct), L-07 and the L-05 maintenance day.

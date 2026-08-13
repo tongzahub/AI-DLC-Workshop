@@ -32,11 +32,12 @@ Thunder Express is a fictional last-mile delivery company (300 riders, ~12,000 p
 
 1. **Status webhooks to merchants** — merchant registers a callback URL + secret; on every parcel status change, POST a signed event; retry with backoff (max 5 attempts); delivery log queryable.
 2. **COD reconciliation** — daily summary per rider (expected vs recorded collections), variance flagging (> 50 THB or missing), finance endpoint `GET /cod/summary?date=` and rider detail; mark-settled action.
-3. **Fix what you find** — RE will surface issues in the existing code. The team decides with the facilitator which are in scope; at minimum, money must not be floats in new code.
+3. **Reconciliation screen for finance** — the five finance staff close COD every evening at 20:00 and today they do it on paper. They need one page: pick a date, see every rider's expected versus recorded with the variance, have the problem riders stand out without being hunted for, and mark a rider's day settled once the cash is counted.
+4. **Fix what you find** — RE will surface issues in the existing code. The team decides with the facilitator which are in scope; at minimum, money must not be floats in new code.
 
 ## Features Explicitly Out of Scope
 
-- Rider mobile app changes (API-only)
+- Rider mobile app changes (a separate team owns it; the finance screen above is ours)
 - Route optimization, real-time GPS
 - Message broker / queue infrastructure (Phase 2 — document the upgrade path)
 - Multi-currency (THB only)

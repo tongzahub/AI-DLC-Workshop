@@ -21,6 +21,26 @@ same database. This is an incident response, not a rewrite. Hypothesis is alread
 - **Reported values carry 4 decimal places, and they must match the plant's own hand calculations exactly** — the engineers check the dashboard against figures they worked out themselves, and `expected-oee-l03.csv` is those figures. If your fourth decimal is off by one, the difference is real and worth understanding before you paper over it.
 - Every fix needs: a failing regression test first, the fix, and the test passing — plus property-based tests per the vision doc.
 
+## The screen
+
+One user interface is in scope (see the vision document). The platform team has exactly two
+rules about it, and no opinion on anything else:
+
+- **It is served by your own service and runs in a browser on this laptop.** No separate
+  frontend server, no deployment, no build pipeline required.
+- **Nothing is fetched from the internet at runtime.** No CDN for a framework, a font or an
+  icon set — the venue Wi-Fi is not part of your architecture, and the demo has to work when it
+  is not there.
+
+Framework or no framework, one page or several, a build step or plain files served as-is —
+that is a design decision like any other. Make it, record why, and be ready to defend it at a
+gate. A single page your API serves is a completely respectable answer for two days of work.
+
+The dashboard is what INC-1042 is about. `GET /oee/{line_id}?date=` may gain fields but must
+keep the ones it already returns — the page is a new consumer of that endpoint, not a reason to
+change it.
+
+
 ## Prohibited
 
 | Prohibited | Use Instead |

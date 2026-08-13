@@ -10,7 +10,8 @@ Requested by: Head of Operations · Priority: HIGH · Target: this quarter
 
 1. Merchants keep hammering `GET /parcels/{id}` — give them webhooks. They register a URL and a secret with us; every time a parcel changes status we POST them an event within 30 seconds. If their endpoint is down, retry up to 5 times with increasing delay. We need to see a log of what was delivered.
 2. Finance: every rider that carries COD parcels must have a daily summary — how much they *should* have collected vs what they *recorded* — flag differences over 50 baht or any missing collection. Cutoff 20:00, report ready by 20:30. Finance marks a rider's day as settled after counting cash.
-3. Do NOT break the merchant API. Their integration teams take months to change anything.
+3. Finance are not going to read JSON. They close the day at 20:00 with a printout and a pen, and they want to stop. Give them one page: pick a date, see every rider's expected against recorded, have the problems stand out, and tick a rider off once the cash is counted.
+4. Do NOT break the merchant API. Their integration teams take months to change anything.
 
 ## The settlement day (finance, in writing)
 

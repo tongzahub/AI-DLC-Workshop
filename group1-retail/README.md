@@ -145,7 +145,7 @@ See §7 for what "handing back" means.
 | Day 1 morning | Through Requirements Analysis (extensions declined, on record) and into User Stories |
 | Day 1 afternoon | Workflow Planning approved; Application Design and Units Generation done — expect 2–3 units, e.g. points-engine / campaign-management / reporting |
 | Day 2 morning | Construction: points-engine unit complete (earn / burn / ledger with idempotency), second unit underway |
-| Day 2 afternoon | Build & Test; demo — replay `transactions.csv` against your API and match `expected-points.csv` |
+| Day 2 afternoon | Build & Test; the customer-service screen on top of the finished points engine; demo — look a member up on screen and match `expected-points.csv` |
 
 ---
 
@@ -159,7 +159,13 @@ See §7 for what "handing back" means.
 - Earn is idempotent by `transactionId` — show the test that proves the POS retry is safe
 - Point liability summary endpoint returns totals by tier, and replaying the whole file gives
   the eight member balances in `technical-environment.md`
+- **The customer-service screen works**: look up a member, see the balance, the tier, and the
+  history with the reason behind each entry; make an adjustment with a reason code. The balance
+  it shows for a member is the one in `expected-points.csv`
 - `aidlc-docs/` complete: requirements, stories, Mermaid execution plan, design, unit docs, audit trail
+
+> **Build the screen last.** It sits on top of everything else, so a team that runs short still
+> has a working, tested service to show. A team that starts with the screen has neither.
 
 ---
 

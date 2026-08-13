@@ -164,7 +164,7 @@ See §7 for what "handing back" means.
 | Day 1 morning | Requirements Analysis with the Security extension OPT-IN recorded; stories drafted |
 | Day 1 afternoon | Execution plan approved; Application Design with the state machine and security NFRs; 2 units (application-lifecycle / verification-integration) |
 | Day 2 morning | Construction: lifecycle + consent + blocklist unit done; webhook handling underway |
-| Day 2 afternoon | Build & Test; audit walkthrough with the facilitator; demo the mock's outcomes including the duplicate-webhook case |
+| Day 2 afternoon | Build & Test; the operations review screen; audit walkthrough with the facilitator; demo the mock's outcomes on screen, including the duplicate-webhook case |
 
 ---
 
@@ -180,9 +180,15 @@ See §7 for what "handing back" means.
 - **Blocklist screening stops every reference that should be stopped.** Several listed
   identities pass face match at 0.97, so face match alone will not do it. Work out which
   references those are from `blocklist.csv` and what the business asked for
+- **The operations review screen works**: the queue oldest-first with the score visible, the ID
+  card and the selfie side by side, approve/reject with a reason. What an agent can read off that
+  page is a compliance decision — the auditor will look at the screen, not only at your logs
 - Erasure endpoint purges biometrics but retains the 7-year audit skeleton
 - `aidlc-docs/` complete, with the Security extension decision and its consequences visible in
   the design docs
+
+> **Build the screen last.** It sits on top of everything else, so a team that runs short still
+> has a working, tested service to show. A team that starts with the screen has neither.
 
 ---
 

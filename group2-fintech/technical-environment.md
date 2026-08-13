@@ -30,6 +30,22 @@ application lifecycle — none of that is standardised here. Choose, and record 
 - **Authentication**: OAuth2 client-credentials between systems, role claims in the JWT. Assume the gateway has already validated it — trust the `x-client-id` and `x-role` headers.
 - **Roles**: operations endpoints require `x-role: OPS_REVIEWER`; data-subject erasure requires `x-role: DPO`.
 
+## The screen
+
+One user interface is in scope (see the vision document). The platform team has exactly two
+rules about it, and no opinion on anything else:
+
+- **It is served by your own service and runs in a browser on this laptop.** No separate
+  frontend server, no deployment, no build pipeline required.
+- **Nothing is fetched from the internet at runtime.** No CDN for a framework, a font or an
+  icon set — the venue Wi-Fi is not part of your architecture, and the demo has to work when it
+  is not there.
+
+Framework or no framework, one page or several, a build step or plain files served as-is —
+that is a design decision like any other. Make it, record why, and be ready to defend it at a
+gate. A single page your API serves is a completely respectable answer for two days of work.
+
+
 ## Environment
 
 You need Python 3.12 and a PostgreSQL 15 you can reach. `local-environment/` has a compose file

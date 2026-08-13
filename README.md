@@ -5,7 +5,9 @@ AI-Driven Development Life Cycle — with four teams working four different kind
 at the same time.
 
 Everything a team needs is in its own folder: the business documents, the seeded data, and an
-answer key their software has to reproduce. Everything runs on their own laptop.
+answer key their software has to reproduce. Each team ships a working service **and one screen
+on top of it**, so what they built is something you can look at rather than a `curl` transcript.
+Everything runs on their own laptop.
 
 > Built and verified against AI-DLC Workflows **v1.0.1**.
 
@@ -24,12 +26,16 @@ puts the four plans side by side.
 
 ### What each group is measured against
 
-| | Answer key | Checked with |
-|---|---|---|
-| 1 | `sample-data/expected-points.csv` — 40 sales + 3 refunds | `node sample-data/check-points.mjs your-output.csv` |
-| 2 | the vendor mock's scripted outcomes | `GET localhost:9310/_admin/billing` |
-| 3 | `expected-cod-summary.csv` — two settlement days | `GET /cod/summary?date=` |
-| 4 | `expected-oee-l03.csv`, `expected-oee-all-lines.csv` | `GET /oee/{line}?date=` |
+| | Answer key | Checked with | The screen it ships with |
+|---|---|---|---|
+| 1 | `sample-data/expected-points.csv` — 40 sales + 3 refunds | `node sample-data/check-points.mjs your-output.csv` | customer-service lookup: balance, tier, history with the reason for each entry |
+| 2 | the vendor mock's scripted outcomes | `GET localhost:9310/_admin/billing` | operations review queue: score, ID card and selfie side by side, approve/reject |
+| 3 | `expected-cod-summary.csv` — two settlement days | `GET /cod/summary?date=` | finance reconciliation: per-rider expected vs recorded, problems flagged, mark settled |
+| 4 | `expected-oee-l03.csv`, `expected-oee-all-lines.csv` | `GET /oee/{line}?date=` | the OEE dashboard INC-1042 is about — one bad line must not take the page down |
+
+Every one of those screens was asked for by a stakeholder in that group's own documents. The
+number the screen displays is the number in the answer key, which is what makes the Day-2 demo
+something to look at instead of something to read out.
 
 The answer keys ship **with** the teams on purpose. Building software that reproduces a
 known-correct number is the exercise; guessing what the number should be is not.

@@ -38,6 +38,7 @@ SwiftKYC is the customer onboarding and e-KYC backend for Metro Finance (a ficti
 - Decision rules: score ≥ 0.95 and liveness pass → auto-approve identity; 0.80–0.95 → MANUAL_REVIEW queue; < 0.80 → reject
 - Blocklist screening against a provided sanctions/blocklist CSV (exact ID match + fuzzy name match ≥ 0.9)
 - Operations review API: list queue, view evidence, approve/reject with reason (role-restricted)
+- **Operations review screen** — the 10 review agents cannot work from an API. They need the queue oldest-first with the score visible, the ID card and the selfie **side by side** on one page, and approve/reject with a reason. Role-restricted like the API behind it, and what an agent may and may not see on that page is a compliance question, not a layout question
 - Full audit trail per application: every state change, who/what/when, immutable
 - Data-subject erasure endpoint: on request, purge biometric artifacts, retain a legally required audit skeleton (7-year retention on audit fields)
 
@@ -46,7 +47,7 @@ SwiftKYC is the customer onboarding and e-KYC backend for Metro Finance (a ficti
 - Credit scoring / loan decisioning (separate system — this service ends at identity decision)
 - NDID integration (Phase 2 — VerifyMe mock only in MVP)
 - Dip-chip / branch-assisted flow (Phase 2)
-- Mobile app UI (separate team)
+- The applicant-facing mobile app (a separate squad owns it). The internal operations screen above is ours
 - AML transaction monitoring (separate system)
 
 ## Key Success Metrics

@@ -30,6 +30,22 @@ These come from systems other teams own. You cannot negotiate them.
 - **POS**: calls PointHub synchronously at checkout. If PointHub is down the POS completes the sale anyway and queues the earn request for retry — and the POS team say the retry sometimes fires twice.
 - **POS refunds**: a refund arrives as its own transaction with `type = REFUND`, its own `transactionId`, an `originalTransactionId`, and negative line amounts. A refund may return **all** lines of the original or only **some** of them.
 
+## The screen
+
+One user interface is in scope (see the vision document). The platform team has exactly two
+rules about it, and no opinion on anything else:
+
+- **It is served by your own service and runs in a browser on this laptop.** No separate
+  frontend server, no deployment, no build pipeline required.
+- **Nothing is fetched from the internet at runtime.** No CDN for a framework, a font or an
+  icon set — the venue Wi-Fi is not part of your architecture, and the demo has to work when it
+  is not there.
+
+Framework or no framework, one page or several, a build step or plain files served as-is —
+that is a design decision like any other. Make it, record why, and be ready to defend it at a
+gate. A single page your API serves is a completely respectable answer for two days of work.
+
+
 ## Environment
 
 You need Node 20 and a PostgreSQL 15 you can reach. `local-environment/` has a compose file that

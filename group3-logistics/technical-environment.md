@@ -21,6 +21,25 @@ budget reflects that.
 - Timezone Asia/Bangkok for the 20:00 COD cutoff. Finance described how their day closes in `change-request.md`; turning that sentence into a rule about timestamps, including what happens at exactly the cutoff, is part of the work.
 - Whatever format the existing code writes timestamps in, keep writing new rows the same way — merchants and the rider app both read them.
 
+## The screen
+
+One user interface is in scope (see the vision document). The platform team has exactly two
+rules about it, and no opinion on anything else:
+
+- **It is served by your own service and runs in a browser on this laptop.** No separate
+  frontend server, no deployment, no build pipeline required.
+- **Nothing is fetched from the internet at runtime.** No CDN for a framework, a font or an
+  icon set — the venue Wi-Fi is not part of your architecture, and the demo has to work when it
+  is not there.
+
+Framework or no framework, one page or several, a build step or plain files served as-is —
+that is a design decision like any other. Make it, record why, and be ready to defend it at a
+gate. A single page your API serves is a completely respectable answer for two days of work.
+
+The screen is additive, like everything else in this change request: it must not alter an
+existing endpoint or response shape.
+
+
 ## Prohibited
 
 | Prohibited | Use Instead |

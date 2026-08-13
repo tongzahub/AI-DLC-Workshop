@@ -163,8 +163,14 @@ See §7 for what "handing back" means.
   production day
 - The original 2 tests still pass, **plus your team's written answer to: why did they never
   catch these bugs?**
+- **The dashboard is back**: one page showing every line for a chosen production day, reading
+  from your fixed endpoint. Open it on the maintenance day — that line reads "n/a" and **every
+  other line still displays**, which is what INC-1042 actually asked for
 - `RUNBOOK.md` — one page ops can actually use (`RUNBOOK-template.md` in this folder is the
   skeleton to fill in)
+
+> **Build the screen last.** It sits on top of everything else, so a team that runs short still
+> has a working, tested service to show. A team that starts with the screen has neither.
 
 ---
 

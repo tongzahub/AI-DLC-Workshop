@@ -162,7 +162,13 @@ See §7 for what "handing back" means.
 - New money fields are integer satang; any money-handling defect you find in the old code is at
   minimum documented with a remediation note
 - Webhook events signed (HMAC-SHA256, `X-Tex-Signature`) and duplicate-tolerant by design
+- **The finance screen works**: pick a date, see every rider's expected against recorded, the
+  problem riders stand out without hunting, and a rider's day can be marked settled. It shows the
+  same two days as `expected-cod-summary.csv`
 - RE artifacts corrected by the team where the AI guessed wrong — corrections visible in `aidlc-docs/`
+
+> **Build the screen last.** It sits on top of everything else, so a team that runs short still
+> has a working, tested service to show. A team that starts with the screen has neither.
 
 ---
 

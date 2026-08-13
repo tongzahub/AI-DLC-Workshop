@@ -29,7 +29,7 @@ puts the four plans side by side.
 | | Answer key | Checked with | The screen it ships with |
 |---|---|---|---|
 | 1 | `sample-data/expected-points.csv` — 40 sales + 3 refunds | `node sample-data/check-points.mjs your-output.csv` | customer-service lookup: balance, tier, history with the reason for each entry |
-| 2 | the vendor mock's scripted outcomes | `GET localhost:9310/_admin/billing` | operations review queue: score, ID card and selfie side by side, approve/reject |
+| 2 | the vendor mock's scripted outcomes | `GET localhost:9310/_admin/billing` | operations review queue, plus the compliance view the Day-2 auditor is walked through |
 | 3 | `expected-cod-summary.csv` — two settlement days | `GET /cod/summary?date=` | finance reconciliation: per-rider expected vs recorded, problems flagged, mark settled |
 | 4 | `expected-oee-l03.csv`, `expected-oee-all-lines.csv` | `GET /oee/{line}?date=` | the OEE dashboard INC-1042 is about — one bad line must not take the page down |
 

@@ -36,7 +36,11 @@ PointHub is a backend service that enables Siam MegaMart (a fictional Thai retai
 - Member point balance, tier status, and transaction history API
 - Campaign management API: create/activate/deactivate earn-rule campaigns with start/end dates (no UI needed — API only)
 - Manual adjustment API for customer service (add/deduct with reason code, full audit trail)
-- **Customer-service screen** — the 25 agents currently phone IT to settle a point dispute. They need to look up a member and see, on one page: the balance, the tier, and the transaction history with **why** each entry happened (which campaign or rule produced it), plus a way to make a manual adjustment with a reason code. This is the only user interface in the MVP
+- **Customer-service screen** — the 25 agents currently phone IT to settle a point dispute. They need to look up a member and see, on one page: the balance, the tier, and the transaction history with **why** each entry happened (which campaign or rule produced it), plus a way to make a manual adjustment with a reason code. Agents work from a member id — the
+  member database is read-only and has no search, so looking someone up by name or phone is not
+  possible and is not asked for. **This is the only user interface in the MVP:** marketing
+  configure campaigns through the API, and Finance take the liability report as a file. Neither
+  of them gets a screen, and building one for them is scope you did not agree to
 - Point expiry: points expire 12 months after the month earned; nightly expiry job
 - Point liability summary report endpoint for finance (total outstanding points, by tier)
 

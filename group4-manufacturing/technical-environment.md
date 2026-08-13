@@ -40,6 +40,10 @@ The dashboard is what INC-1042 is about. `GET /oee/{line_id}?date=` may gain fie
 keep the ones it already returns — the page is a new consumer of that endpoint, not a reason to
 change it.
 
+The page shows every line for one production day; that endpoint answers for one line. Calling it
+once per line is fine at this scale. Adding an endpoint that answers for all lines is also fine —
+it is additive and breaks nothing — but it is a decision, so record why you made it.
+
 
 ## Prohibited
 

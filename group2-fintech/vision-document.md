@@ -40,6 +40,12 @@ SwiftKYC is the customer onboarding and e-KYC backend for Metro Finance (a ficti
 - Operations review API: list queue, view evidence, approve/reject with reason (role-restricted)
 - **Operations review screen** — the 10 review agents cannot work from an API. They need the queue oldest-first with the score visible, the ID card and the selfie **side by side** on one page, and approve/reject with a reason. Role-restricted like the API behind it, and what an agent may and may not see on that page is a compliance question, not a layout question
 - Full audit trail per application: every state change, who/what/when, immutable
+- **Compliance view** — the 4 compliance officers answer regulators and handle data-subject
+  requests, and today they do it by asking engineering to run queries. They need to pull up one
+  application and read its whole story on one page: which consent version was agreed to and
+  when, every state change with who or what caused it, every time someone unmasked an ID, and
+  the outcome. This is the page the regulator is shown, so what it does *not* display matters as
+  much as what it does
 - Data-subject erasure endpoint: on request, purge biometric artifacts, retain a legally required audit skeleton (7-year retention on audit fields)
 
 ## Features Explicitly Out of Scope (MVP)
@@ -57,6 +63,7 @@ SwiftKYC is the customer onboarding and e-KYC backend for Metro Finance (a ficti
 - Duplicate vendor verification calls per application: 0 — checked against the vendor's own `GET /_admin/billing`, where `double_billed` must be empty
 - 100% of stored ID numbers encrypted and masked as `x-xxxx-xxxx-12-3` in every log line
 - Blocklist screening stops all three seeded hits — including the one that only a fuzzy name match catches — even though all three pass face verification at 0.97
+- A compliance officer can answer "what exactly did this applicant agree to, and who has looked at their ID?" from the compliance view alone, without asking engineering to run a query
 
 ## Open Questions (expect the AI to ask)
 

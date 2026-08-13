@@ -164,7 +164,7 @@ See §7 for what "handing back" means.
 | Day 1 morning | Requirements Analysis with the Security extension OPT-IN recorded; stories drafted |
 | Day 1 afternoon | Execution plan approved; Application Design with the state machine and security NFRs; 2 units (application-lifecycle / verification-integration) |
 | Day 2 morning | Construction: lifecycle + consent + blocklist unit done; webhook handling underway |
-| Day 2 afternoon | Build & Test; the operations review screen; audit walkthrough with the facilitator; demo the mock's outcomes on screen, including the duplicate-webhook case |
+| Day 2 afternoon | Build & Test; the operations and compliance screens; audit walkthrough with the facilitator **on the compliance view**; demo the mock's outcomes on screen, including the duplicate-webhook case |
 
 ---
 
@@ -182,7 +182,11 @@ See §7 for what "handing back" means.
   references those are from `blocklist.csv` and what the business asked for
 - **The operations review screen works**: the queue oldest-first with the score visible, the ID
   card and the selfie side by side, approve/reject with a reason. What an agent can read off that
-  page is a compliance decision — the auditor will look at the screen, not only at your logs
+  page is a compliance decision, not a layout one
+- **The compliance view works**: pull up one application and read its whole story — consent
+  version and timestamp, every state change with who caused it, every unmask, the outcome.
+  **This is the page you hand the auditor on Day 2**, so the walkthrough happens on a screen
+  rather than in a terminal
 - Erasure endpoint purges biometrics but retains the 7-year audit skeleton
 - `aidlc-docs/` complete, with the Security extension decision and its consequences visible in
   the design docs

@@ -32,8 +32,9 @@ application lifecycle — none of that is standardised here. Choose, and record 
 
 ## The screen
 
-One user interface is in scope (see the vision document). The platform team has exactly two
-rules about it, and no opinion on anything else:
+Two user interfaces are in scope — one for operations, one for compliance (see the vision
+document). They may well be two views of the same small application. The platform team has
+exactly two rules about them, and no opinion on anything else:
 
 - **It is served by your own service and runs in a browser on this laptop.** No separate
   frontend server, no deployment, no build pipeline required.

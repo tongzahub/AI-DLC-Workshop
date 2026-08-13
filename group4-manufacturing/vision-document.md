@@ -27,7 +27,8 @@ Apex Auto Parts (fictional) runs 8 production lines; each line's PLC gateway pos
 
 ## Explicitly Out of Scope
 
-- New endpoints or features beyond the three incidents. The dashboard is not a new feature — it is the thing INC-1042 is about
+- New features beyond the three incidents. The dashboard is not a new feature — it is the thing INC-1042 is about
+- Note on endpoints: the page needs every line for one day, and today's endpoint answers for one line at a time. Calling it once per line is a perfectly good answer for eight lines. If your design wants an endpoint that answers for all of them, that is allowed — it is an addition, not a change, and like every addition here it needs a recorded reason
 - Changing the gateway payload contract (vendor firmware is frozen)
 - Performance work (volumes are small)
 

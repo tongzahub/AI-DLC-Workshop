@@ -51,6 +51,9 @@ docker pull postgres:15-alpine
 - [ ] Groups 3–4: `pip download -r requirements.txt` run once at home, so package caches are
       warm. Groups 1–2 have no dependency list yet — they choose their own libraries during the
       workshop, so just make sure `npm` / `pip` can reach the registry from the venue
+- [ ] Group 2 only: `pip install fastapi uvicorn httpx` at home. These are the **vendor mock's**
+      dependencies, not your service's — the mock will not start without them, and your own
+      stack is still a decision you make during the workshop
 - [ ] Groups 1–2: `docker pull postgres:15-alpine` done at home (see above)
 - [ ] A markdown-capable editor (VS Code is fine) for reading `.md` files and answering
       question files

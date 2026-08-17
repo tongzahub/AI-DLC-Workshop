@@ -4,7 +4,7 @@ Requested by: Head of Operations · Priority: HIGH · Target: this quarter
 
 ## Trigger phrase for the workshop
 
-> Using AI-DLC, implement change request CR-2026-081 for the existing ParcelTrack service in this workspace: add merchant status webhooks and daily COD reconciliation, per vision-document.md and technical-environment.md. This is a brownfield project — analyze the existing code first.
+> Using AI-DLC, implement change request CR-2026-081 for the existing ParcelTrack service in this workspace: add merchant status webhooks, daily COD reconciliation, and the finance reconciliation screen, per vision-document.md and technical-environment.md. This is a brownfield project — analyze the existing code first.
 
 ## Requirement details (from operations, verbatim)
 

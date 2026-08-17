@@ -24,24 +24,27 @@ Use the rules version your facilitator names. Do not just grab "latest".
 ### 1.2 Bring up your environment
 
 ```
-cd local-environment
+python --version                 # 3.12.x
 python -m venv .venv
-.venv\Scripts\activate          # macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-python -m pytest                 # 3 passed
-ruff check .                     # All checks passed!
-mypy .                           # Success: no issues found
+.venv\Scripts\activate           # macOS/Linux: source .venv/bin/activate
 
+cd local-environment
 docker compose up -d             # PostgreSQL 15 (first run pulls the image, ~30 s)
-python scripts/db_ping.py        # "database is up."
+docker compose ps                # must say "healthy"
+python check_db.py               # "database is up."
 cd ..
 ```
 
 Then start the vendor mock **in a second terminal** and leave it running all day:
 
 ```
+.venv\Scripts\activate           # macOS/Linux: source .venv/bin/activate
+pip install fastapi uvicorn httpx
 python mock_verifyme.py          # http://localhost:9310
 ```
+
+Those three packages are what **the mock vendor** needs to run. They are not a recommendation
+for your own service — that stack is still a design decision you make and defend at a gate.
 
 Python 3.12, and **Docker Desktop running**. That is the whole environment, plus the mock.
 
@@ -74,7 +77,7 @@ facilitator.
 Paste this exactly, into a fresh session, in this folder:
 
 ```
-Using AI-DLC, build the SwiftKYC customer onboarding API described in vision-document.md and technical-environment.md in this workspace. This is a new greenfield project in a regulated environment.
+Using AI-DLC, build the SwiftKYC customer onboarding service described in vision-document.md and technical-environment.md in this workspace — the onboarding API, plus the operations review and compliance screens that run on top of it. This is a new greenfield project in a regulated environment.
 ```
 
 Then let the workflow lead.

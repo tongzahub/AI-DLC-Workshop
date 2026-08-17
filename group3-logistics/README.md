@@ -61,7 +61,7 @@ facilitator.
 Paste this exactly, into a fresh session, in this folder:
 
 ```
-Using AI-DLC, implement change request CR-2026-081 for the existing ParcelTrack service in this workspace: add merchant status webhooks and daily COD reconciliation, per vision-document.md and technical-environment.md. This is a brownfield project — analyze the existing code first.
+Using AI-DLC, implement change request CR-2026-081 for the existing ParcelTrack service in this workspace: add merchant status webhooks, daily COD reconciliation, and the finance reconciliation screen, per vision-document.md and technical-environment.md. This is a brownfield project — analyze the existing code first.
 ```
 
 Then let the workflow lead.

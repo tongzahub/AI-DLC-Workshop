@@ -23,11 +23,11 @@
 | Time | What | Notes |
 |---|---|---|
 | 09:00 – 12:00 | Construction | G1: points-engine unit, then #2 · G2: lifecycle + consent + blocklist, webhooks underway · G3: webhook registration, signed delivery, retries · G4: the four fixes, tests red→green |
-| 11:45 | **Checkpoint 3** | First unit complete? Ground truth partially reproducing? |
+| 11:45 | **Checkpoint 3** | First unit complete? Ground truth partially reproducing? **Who is on the screen this afternoon, and which endpoint does it read?** |
 | 12:00 – 13:00 | Lunch | |
-| 13:00 – 14:30 | Build & Test · match the ground truth | G1: replay vs `expected-points.csv` · G2: audit walkthrough prep, `/_admin/billing` clean · G3: CR acceptance snapshot · G4: property suite 1,000+ cases |
-| 14:30 – 15:00 | **Checkpoint 4** · `traceability-worksheet.md` + retro notes | The worksheet is what your demo is built on — finish it **before** demoing |
-| 15:00 – 16:20 | **Demos** — 4 teams × (10 min + 5 min Q&A) | 2 min acceptance scenario, then walk ONE number backwards to the sentence that caused it, then say where the chain broke |
+| 13:00 – 14:30 | Build & Test · match the ground truth · **then the screen** | G1: replay vs `expected-points.csv` · G2: audit walkthrough prep, `/_admin/billing` clean · G3: CR acceptance snapshot · G4: property suite 1,000+ cases. **The screen goes up the moment your numbers match — it is on every group's Definition of Done and it must not slip past 14:30** |
+| 14:30 – 15:00 | **Checkpoint 4** · the screen · `traceability-worksheet.md` + retro notes | Open the screen in a browser and show a number that matches your answer key. The worksheet is what your demo is built on — finish both **before** demoing |
+| 15:00 – 16:20 | **Demos** — 4 teams × (10 min + 5 min Q&A) | 2 min acceptance scenario **driven from your screen**, then walk ONE number backwards to the sentence that caused it, then say where the chain broke |
 | 16:20 – 16:50 | The comparison | All four execution plans side by side — same rules, four shapes. This is the point of the workshop |
 | 16:50 – 17:00 | Retro share-out · close | 3 things AI-DLC did well · 3 frictions · 1 change before a real project |
 
@@ -35,5 +35,7 @@
 
 1. **Decisions started on record** — extension choice + first contradictions found
 2. **A plan you actually argued with** — the gate was used, not clicked
-3. **Software converging on ground truth** — at least one number already matches
-4. **The chain is walkable** — worksheet done before the demo, honest breaks included
+3. **Software converging on ground truth** — at least one number already matches, and the team
+   knows who puts the screen on top of it after lunch
+4. **The chain is walkable, and it is on a screen** — the page opens in a browser and shows a
+   number from the answer key; worksheet done before the demo, honest breaks included
